@@ -24,6 +24,9 @@ function Main(props/*{
               }*/
 ) {
       const currentUserContext = React.useContext(CurrentUserContext);
+      const handleProfileOpen = (evt) => {
+          console.log("I'm a superstar!!!")
+          props.isEditProfilePopupOpen(true) }
     return (
         <main className="container">
             <section className="profile">
@@ -49,7 +52,8 @@ function Main(props/*{
                 </div>
                 <div className="profile__button-container">
                     <button className="profile__add-button" type="button"
-                          onClick={props.isAddPlacePopupOpen}
+/*                          onClick={props.isAddPlacePopupOpen}*/
+                            onClick={handleProfileOpen}
                     />
                 </div>
             </section>

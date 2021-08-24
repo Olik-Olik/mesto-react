@@ -1,3 +1,4 @@
+/*
 const keyCodeEsc = '27';
 const editButton = document.querySelector('.profile__edit-button');
 
@@ -36,3 +37,4 @@ export{keyCodeEsc, editButton,
     formAddCard, inputUserName, inputUserJob,
     zoomedImage, imageDescription, editAvatarButton
   };
+*/

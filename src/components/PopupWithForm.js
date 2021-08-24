@@ -1,7 +1,7 @@
 import React from "react";
 //пропсы title и name
 //className={`popup popup_type_${props.name}`}  Замечание 1.
-function PopupWithForm(props /*isOpen, onClose, onSubmit, buttonText, buttonSubmitState*/) {
+function PopupWithForm(props) {
     return (
         <section className={`popup popup_type_${props.name}`}>
         <div className={`popup ${props.isOpen ? "popup_opened" : ""} `}>
@@ -18,7 +18,7 @@ function PopupWithForm(props /*isOpen, onClose, onSubmit, buttonText, buttonSubm
                       name="resaveCountry"
                       noValidate
                       onSubmit={props.onSubmit} />
-                {`${props.children}`}
+                {props.children}
                 <button aria-label='Кнопка Создать место'
                         className={`popup__save ${!props.buttonSubmitState} ? "" : ""`}
                         type="submit"> {`${props.buttonText}`} </button>

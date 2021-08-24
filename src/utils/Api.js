@@ -1,3 +1,5 @@
+import React from "react";
+
  class Api {
     constructor(arr) {
         this._address = arr.address;
@@ -130,20 +132,5 @@
  });
 
 
+export default api;
 
-/*import React from 'react';
-import Header from './Header';
-import Footer from './Footer'
-import AppContainer from './AppContainer';
-import './App.css';
-
-function App() {
-  return (
-      <>
-        <Header />
-        <AppContainer />
-        <Footer/>
-      </>
-  );
-}
-export default App;*/

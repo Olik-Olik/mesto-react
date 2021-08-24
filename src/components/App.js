@@ -1,5 +1,5 @@
 import React from "react";
-/*import '../index.css';*/
+import '../index.css';
 import Header from "./Header";
 import Main from './Main';
 import Footer from './Footer';
@@ -26,15 +26,16 @@ export default function App() {
     const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
 
-    function handleEditAvatarClick() {
+    function handleEditAvatarClick(evt) {
         setisEditAvatarPopupOpen(true);
     }
 
-    function handleEditProfileClick() {
+    function handleEditProfileClick(evt) {
+        console.log("I'm a walrus!!!")
         setisEditProfilePopupOpen(true);
     }
 
-    function handleAddPlaceClick() {
+    function handleAddPlaceClick(evt) {
         setisAddPlacePopupOpen(true);
     }
 
@@ -43,9 +44,9 @@ export default function App() {
     }
 
     function closeAllPopups() {
-        setisEditAvatarPopupOpen(true);
-        setisEditProfilePopupOpen(true);
-        setisAddPlacePopupOpen(true);
+        setisEditAvatarPopupOpen(false);
+        setisEditProfilePopupOpen(false);
+        setisAddPlacePopupOpen(false);
     }
 
     const [cards, setCards] = React.useState([]);
@@ -60,9 +61,12 @@ export default function App() {
             <Header/>
             <Main
                 isEditAvatarPopupOpen={handleEditAvatarClick}
-                isEditProfilePopupOpen={handleEditProfileClick}
+                isEditProfilePopupOpen={ (evt) =>  {
+                    console.log("I'm a superstar too!!!")
+                    handleEditProfileClick(evt)}
+                }
                 isAddPlacePopupOpen={handleAddPlaceClick}
-                cards={cards}/>
+                cards={cards} />
 {/*
             //«Редактировать профиль»
             // «Новое место»
@@ -86,6 +90,7 @@ export default function App() {
  buttonText = "Добавить"/>*/}
 
             <PopupWithForm
+                /*isOpen={true}*/
                 onClose={closeAllPopups}
                 buttonText="Да"/>
 
@@ -122,7 +127,9 @@ export default function App() {
                     </button>
                 </div>
             </div>
-            <section className="popup popup_type_edit">
+            <section className={`popup popup_type_edit ${isEditProfilePopupOpen ? "popup_opened" : ""} `}>
+
+
                 <button aria-label='Закрыть всплывающее окошко' className="popup__close-button" type="button"/>
                 <div className="popup__container">
                     <form action="#" aria-label='получения инфо и передачи данных' className="popup__form"
