@@ -8,7 +8,7 @@ function PopupWithForm(props /*isOpen, onClose, onSubmit, buttonText, buttonSubm
             <button aria-label='Закрыть'
                     className="popup__close-button"
                     type="button"
-                    onClick={`${props.onClose}`}/>
+                    onClick={props.onClose}/>
             <div className="popup__container popup__form">
                 <form action="#" aria-label='получения инфо и передаче данных в адресной строке'
                      // Значение пропса name будет использоваться туточки тоже
@@ -17,7 +17,7 @@ function PopupWithForm(props /*isOpen, onClose, onSubmit, buttonText, buttonSubm
                       method="GET"
                       name="resaveCountry"
                       noValidate
-                      onSubmit={`${props.onSubmit}`} />
+                      onSubmit={props.onSubmit} />
                 {`${props.children}`}
                 <button aria-label='Кнопка Создать место'
                         className={`popup__save ${!props.buttonSubmitState} ? "" : ""`}

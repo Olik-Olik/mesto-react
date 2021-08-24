@@ -4,7 +4,8 @@ function ImagePopup({card, onClose}){
     return (
     <div className = {`popup popup_type_image ${card.src && "popup_open"}`}>
      <div className="popup__combine-image">
-         <div style="alignment: right">
+         <div>
+             {/*<div style="alignment: right">*/}
             <button type="button" onClick={onClose} aria-label='Закрыть' className="popup__close-button popup__close-button-no-rel"  />
          </div>
               <div className="popup__combine-word">
