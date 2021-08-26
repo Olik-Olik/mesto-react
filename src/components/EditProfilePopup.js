@@ -90,7 +90,8 @@ function EditProfilePopup(addProfile, onClose, isOpen){
                 <button aria-label='Кнопка Сохранить'
                         className="popup__save"
                         onClick={(evt) => handleSubmit(evt)}
-                        type="submit">Сохранить</button>
+                        type="submit">Сохранить
+                </button>
             </form>
         </div>
     </section>
