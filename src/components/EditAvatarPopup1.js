@@ -13,14 +13,14 @@ function EditAvatarPopup1(props){
         props.onClose()
     }
 return(
-/*    <PopupWithForm
+    <PopupWithForm
         onClose = {props.onClose}
         name = ""
         title = "Редактировать аватар"
         isOpen = {props.isOpen}
         onSubmit = {props.onSubmit} // не описано еще и хз надо ли
         buttonText = "Сохранить"
-    >*/
+
 
         <section  className={`popup popup_type_edit-avatar popup_type_edit ${isEditAvatarPopupOpen ? "popup_opened" : ""} `} >
         <div className="popup__container">

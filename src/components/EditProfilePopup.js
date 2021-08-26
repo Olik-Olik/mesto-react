@@ -31,7 +31,7 @@ function EditProfilePopup(addProfile, onClose, isOpen){
         name = ""
         title = "Редактировать профиль"
         isOpen = {isOpen}
-        onSubmit = {handleSubmit} // не описано еще и хз надо ли
+        onSubmit = {handleSubmit}
         buttonText = "Сохранить"
     >
 
