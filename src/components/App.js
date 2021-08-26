@@ -109,7 +109,9 @@ export default function App() {
             <EditProfilePopup
                 isOpen={isEditProfilePopupOpen}
                 onClose={closeAllPopups}
-                buttonText="Сохранить"/>
+                buttonText="Сохранить"
+/*                addProfile =*/
+            />
 
 {/*
             <AddPlacePopup

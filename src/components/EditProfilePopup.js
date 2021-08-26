@@ -2,9 +2,7 @@ import React, {useState} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function EditProfilePopup(props) {
-
     //стейты
-
     const [handleTitle, sethandleTitle] = useState('');
     const [handleJob, sethandleJob] = useState('');
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import isAddPlacePopupOpen from './App';
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup( addPlace, onClose, isOpen){
+function AddPlacePopup(props){
         //попробуем стейты
 
         const [handleTitle, sethandleTitle] = useState('');
@@ -11,12 +11,12 @@ function AddPlacePopup( addPlace, onClose, isOpen){
         //общий для всех -ВЫНЕСТИ В ПОПАП С ФОРМАМИ
         function handleClose(evt) {
                 if (evt.target.classList.contains('popup'))
-                        onClose();
+                        props.onClose();
         }
         //самбит карточки
         function handleSubmit(evt) {
                 evt.preventDefault();
-               addPlace(       {title:handleTitle, //блин и как это место описать чтобы не undefined
+               props.addPlace(       {title:handleTitle, //блин и как это место описать чтобы не undefined
                                 name:handleUrlPlace})
         }
         //теперь обработчик  места и ссылки
@@ -35,10 +35,10 @@ function AddPlacePopup( addPlace, onClose, isOpen){
 
 return(
     <PopupWithForm
-        onClose = {onClose}
+        onClose = {props.onClose}
         name = "popup-input-place popup-input-img "//????
         title = "Редактировать место"
-        isOpen = {isOpen}
+        isOpen = {props.isOpen}
         onSubmit = {handleSubmit}
         buttonText = "Сохранить"
         >
