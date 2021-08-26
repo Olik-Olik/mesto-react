@@ -1,11 +1,9 @@
-import React ,{ useEffect} from "react";
+import React from "react";
 import '../index.css';
 import Header from "./Header";
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from "./ImagePopup";
-import api from '../utils/Api';
 import AddPlacePopup from "./AddPlacePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
@@ -18,96 +16,107 @@ export default function App() {
     /*  const [isConfirmDeletePopup, setConfirmDeletePopup] = React.useState(false);*/
     const [cards, setCards] = React.useState([]);
     const [currentUser, setCurrentUser] = React.useState('');
-    const [selectedCard, setSelectedCard] = React.useState();
+    const [selectedCard, setSelectedCard] = React.useState({});
 
-/*Импортируйте модуль api и добавьте эффект, вызываемый при монтировании компонента,
- который будет совершать запрос в API за пользовательскими данными.
- После получения ответа задавайте полученные данные в соответствующие переменные состояния.*/
-/*
-    useEffect(() => {
-        api.getUserInfo().then((userInfo) => {
-            setCurrentUser(userInfo)
-        });
-    }, []);
-*/
+    /*Импортируйте модуль api и добавьте эффект, вызываемый при монтировании компонента,
+     который будет совершать запрос в API за пользовательскими данными.
+     После получения ответа задавайте полученные данные в соответствующие переменные состояния.*/
+
+    /*
+        useEffect(() => {
+            api.getUserInfo().then((userInfo) => {
+                setCurrentUser(userInfo)
+            });
+        }, []);
+    */
 
 
     function handleEditAvatarClick(evt) {
+        console.log("I'm a walrus!!!")
         setisEditAvatarPopupOpen(true);
     }
 
     function handleEditProfileClick(evt) {
-        console.log("I'm a walrus!!!")
+        console.log("I'm a walrus 2!!!")
         setisEditProfilePopupOpen(true);
     }
 
     function handleAddPlaceClick(evt) {
+        console.log("I'm a walrus 3!!!")
         setisAddPlacePopupOpen(true);
     }
 
-        function handleCardClick(card) {
-            setSelectedCard(card);
-        }
+    function handleCardClick(card) {
+        console.log("I'm a walrus 4!!!")
+        setSelectedCard(card);
+    }
+
     /*
            function handleConfirmDeletePopup(evt){
            isConfirmDeletePopup(true);}*/
 
     function closeAllPopups() {
+        console.log("I was so close...")
         setisEditAvatarPopupOpen(false);
         setisEditProfilePopupOpen(false);
         setisAddPlacePopupOpen(false);
         /*setSelectedCard(undefined);*/
     }
+
     /**/
-/*
-    React.useEffect(() => {
-        api.getUserInfo().then((userInfo) => {
-            setCurrentUser(userInfo)
-        });
-    }, []);
-*/
+    /*
+        React.useEffect(() => {
+            api.getUserInfo().then((userInfo) => {
+                setCurrentUser(userInfo)
+            });
+        }, []);
+    */
 
     return (
         <>
             <body className="root">
             <Header/>
             <Main
-                isEditAvatarPopupOpen={(evt) => {
+                setisEditAvatarPopupOpen={(evt) => {
                     console.log("I'm a superstar avatar!!!")
                     handleEditAvatarClick(evt)
                 }}
-                isEditProfilePopupOpen={(evt) => {
+                setisEditProfilePopupOpen={(evt) => {
                     console.log("I'm a superstar too!!!")
                     handleEditProfileClick(evt)
-                }
-                }
-                isAddPlacePopupOpen={(evt) => {
+                }}
+                setisAddPlacePopupOpen={(evt) => {
+                    console.log("I'm a superstar too too!!!")
                     handleAddPlaceClick(evt)
                 }}
                 /*   cards={cards}}*/
 
                 //вообще нужно
-               /* isConfirmDeletePopup={(evt) =>
-                    handleConfirmDeletePopup(evt)
-                }*/
+                /* isConfirmDeletePopup={(evt) =>
+                     handleConfirmDeletePopup(evt)
+                 }*/
 
             />
 
 
+{/*
             <EditAvatarPopup
                 isOpen={isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
                 buttonText="Cохранить"/>
+*/}
 
             <EditProfilePopup
                 isOpen={isEditProfilePopupOpen}
                 onClose={closeAllPopups}
                 buttonText="Сохранить"/>
 
+{/*
             <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}
                 buttonText="Добавить"/>
+*/}
 
             {/* из 4 ех  попапов общая разметка */}
             {/*<PopupWithForm
@@ -116,9 +125,11 @@ export default function App() {
                 buttonText="Да"/>*/}
 
             {/*Показывайте полноразмерную картинку при клике*/}
+{/*
             <ImagePopup
                 card={selectedCard}
                 onClose={closeAllPopups}/>
+*/}
 
 
             {/*           <section  className={`popup popup_type_edit-avatar popup_type_edit ${isEditAvatarPopupOpen ? "popup_opened" : ""} `} >
@@ -226,6 +237,7 @@ export default function App() {
                 </div>
             </section>*/}
 
+{/*
             <template className="item-template">
                 <div className="elements__card" id="template-id">
                     <div className="elements__trash-image">
@@ -233,7 +245,7 @@ export default function App() {
                         <img alt="Картинка" className="elements__image"/>
                     </div>
                     <div className="elements__combine">
-                        {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
+                         eslint-disable-next-line jsx-a11y/heading-has-content
                         <h2 className="elements__word"/>
                         <div className="elements__container-like">
                             <button aria-label='Лайк' className="elements__like-button elements__like" type="button"/>
@@ -242,6 +254,7 @@ export default function App() {
                     </div>
                 </div>
             </template>
+*/}
             </body>
 
         </>

@@ -11,9 +11,18 @@ import {CurrentUserContext} from "./CurrentUserContext";
 function Main(props)
  {
       const currentUserContext = React.useContext(CurrentUserContext);
-      const handleProfileOpen = (evt) => {
-          console.log("I'm a superstar!!!")
-          props.isEditProfilePopupOpen(true)
+     const handleEditAvatarOpen = (evt) => {
+         console.log("I'm a superstar 1!!!")
+         props.setisEditAvatarPopupOpen(true)
+     }
+     const handleEditProfileOpen = (evt) => {
+         console.log("I'm a superstar 2!!!")
+         props.setisEditProfilePopupOpen(true)
+     }
+
+      const handleAddPlaceOpen = (evt) => {
+          console.log("I'm a superstar 3!!!")
+          props.setisAddPlacePopupOpen(true)
       }
 //запускается после каждой отрисовки
   /*        useEffect(() => {
@@ -29,14 +38,14 @@ function Main(props)
                         />
                         <div className="profile__avatar-edit-container">
                             <button className="profile__foto-edit-button" type="button"
-                                 onClick={props.isEditAvatarPopupOpen}/>
+                                 onClick={handleEditAvatarOpen}/>
                         </div>
                     </div>
                     <div className="profile__info">
                         <div className="profile__title-edit-button">
                             <h1 className="profile__title">{`${currentUserContext.name}`}</h1>
                             <button className="profile__edit-button" type="button"
-                                     onClick= {props.isEditProfilePopupOpen}
+                                     onClick={handleEditProfileOpen}
                             />
                         </div>
                         <p className="profile__subtitle">{`${currentUserContext.about}`} </p>
@@ -45,7 +54,7 @@ function Main(props)
                 <div className="profile__button-container">
                     <button className="profile__add-button" type="button"
 /*                          onClick={props.isAddPlacePopupOpen}*/
-                            onClick={handleProfileOpen}
+                            onClick={handleAddPlaceOpen}
                     />
                 </div>
             </section>

@@ -30,7 +30,7 @@ function PopupWithForm(props) {
 
                     {props.children}
                     <button aria-label='Кнопка Создать место'
-                            className={`popup__save ${!props.buttonSubmitState} ? "" : ""`}
+                            className="popup__save {`${(not props.buttonSubmitState) ? 'aaa' : 'bbb'}`}"
                             type="submit"> {`${props.buttonText}`} </button>
 
                 </form>

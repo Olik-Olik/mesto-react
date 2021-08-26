@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import isAddPlacePopupOpen from './App';
 import PopupWithForm from "./PopupWithForm";
+
 function AddPlacePopup( addPlace, onClose, isOpen){
         //попробуем стейты
 
