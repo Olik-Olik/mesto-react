@@ -1,30 +1,34 @@
-import React from "react";
+import React ,{ useEffect} from "react";
 import '../index.css';
 import Header from "./Header";
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from "./ImagePopup";
-//import api from '../utils/Api.js'
+import api from '../utils/Api';
+import AddPlacePopup from "./AddPlacePopup";
+import EditAvatarPopup1 from "./EditAvatarPopup1";
+import EditProfilePopup from "./EditProfilePopup";
 
 export default function App() {
-    //обработчики событий из компонента Main в компонент App.
-    //При этом, чтобы они продолжали вызываться из компонента Main,
-    // передавайте их в последний с помощью новых пропсов
-    //переменные состояния, отвечающие за видимость трёх попапов
-    /*    isEditAvatarPopupOpen,
-          isEditProfilePopupOpen,
-          isAddPlacePopupOpen,*/
 
-    //нужен обработчик на add place
-    //обработчик на аву
-    //обработчик на профиль
-    //
-
-    //открыт -закрыт изначально {} или null или false Ревьюеры пишут{}...
     const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] = React.useState(false);
     const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
+    /*  const [isConfirmDeletePopup, setConfirmDeletePopup] = React.useState(false);*/
+    const [cards, setCards] = React.useState([]);
+    const [currentUser, setCurrentUser] = React.useState('');
+    const [selectedCard, setSelectedCard] = React.useState();
+
+/*Импортируйте модуль api и добавьте эффект, вызываемый при монтировании компонента,
+ который будет совершать запрос в API за пользовательскими данными.
+ После получения ответа задавайте полученные данные в соответствующие переменные состояния.*/
+    useEffect(() => {
+        api.getUserInfo().then((userInfo) => {
+            setCurrentUser(userInfo)
+        });
+    }, []);
+
 
     function handleEditAvatarClick(evt) {
         setisEditAvatarPopupOpen(true);
@@ -39,66 +43,81 @@ export default function App() {
         setisAddPlacePopupOpen(true);
     }
 
-    function handleCardClick(card) {
-        setselectedCard(card);
-    }
+        function handleCardClick(card) {
+            setSelectedCard(card);
+        }
+    /*
+           function handleConfirmDeletePopup(evt){
+           isConfirmDeletePopup(true);}*/
 
     function closeAllPopups() {
         setisEditAvatarPopupOpen(false);
         setisEditProfilePopupOpen(false);
         setisAddPlacePopupOpen(false);
+        setSelectedCard(undefined);
     }
-
-    const [cards, setCards] = React.useState([]);
-
-    const [currentUser, setCurrentUser] = React.useState({});
-    const [selectedCard, setselectedCard] = React.useState({});
-
+    /**/
+    React.useEffect(() => {
+        api.getUserInfo().then((userInfo) => {
+            setCurrentUser(userInfo)
+        });
+    }, []);
 
     return (
         <>
             <body className="root">
             <Header/>
             <Main
-                isEditAvatarPopupOpen={handleEditAvatarClick}
-                isEditProfilePopupOpen={ (evt) =>  {
+                isEditAvatarPopupOpen={(evt) => {
+                    console.log("I'm a superstar avatar!!!")
+                    handleEditAvatarClick(evt)
+                }}
+                isEditProfilePopupOpen={(evt) => {
                     console.log("I'm a superstar too!!!")
-                    handleEditProfileClick(evt)}
+                    handleEditProfileClick(evt)
                 }
-                isAddPlacePopupOpen={handleAddPlaceClick}
-                cards={cards} />
-{/*
-            //«Редактировать профиль»
-            // «Новое место»
-            // «Обновить аватар»
-            // «Вы уверены?»
-            // картинка
-            //чеееерт , а где мне сказано, что их надо было выноситььььь*/}
-            {/*< EditAvatarPopup
-  isOpen = {isEditAvatarPopupOpen}
-  onClose = {closeAllPopups}
-  buttonText = "Cохранить"/>
+                }
+                isAddPlacePopupOpen={(evt) => {
+                    handleAddPlaceClick(evt)
+                }}
+                /*   cards={cards}}*/
 
- <EditProfilePopup
- isOpen = {isEditProfilePopupOpen}
- onClose = {closeAllPopups}
- buttonText = "Сохранить"/>
+                //вообще нужно
+               /* isConfirmDeletePopup={(evt) =>
+                    handleConfirmDeletePopup(evt)
+                }*/
 
- <AddPlacePopup
- isOpen = {isAddPlacePopupOpen}
- onClose = {closeAllPopups}
- buttonText = "Добавить"/>*/}
+            />
 
+
+            <EditAvatarPopup1.js
+                isOpen={isEditAvatarPopupOpen}
+                onClose={closeAllPopups}
+                buttonText="Cохранить"/>
+
+            <EditProfilePopup
+                isOpen={isEditProfilePopupOpen}
+                onClose={closeAllPopups}
+                buttonText="Сохранить"/>
+
+            <AddPlacePopup
+                isOpen={isAddPlacePopupOpen}
+                onClose={closeAllPopups}
+                buttonText="Добавить"/>
+
+            {/* из 4 ех  попапов общая разметка */}
             <PopupWithForm
-                /*isOpen={true}*/
+                isOpen={false}
                 onClose={closeAllPopups}
                 buttonText="Да"/>
 
             {/*Показывайте полноразмерную картинку при клике*/}
             <ImagePopup
                 card={selectedCard}
-                onClose={closeAllPopups} />
-            <div className="popup  popup_type_edit-avatar ">
+                onClose={closeAllPopups}/>
+
+
+            {/*           <section  className={`popup popup_type_edit-avatar popup_type_edit ${isEditAvatarPopupOpen ? "popup_opened" : ""} `} >
                 <div className="popup__container">
                     <button aria-label='Закрыть всплывающее окошко'
                             className="popup__close-button"
@@ -126,11 +145,9 @@ export default function App() {
                             type="submit">Сохранение...
                     </button>
                 </div>
-            </div>
-            <section className={`popup popup_type_edit ${isEditProfilePopupOpen ? "popup_opened" : ""} `}>
-
-
-                <button aria-label='Закрыть всплывающее окошко' className="popup__close-button" type="button"/>
+            </section>*/}
+            {/*<section className={`popup popup_type_edit ${isEditProfilePopupOpen ? "popup_opened" : ""} `}>
+            <button aria-label='Закрыть всплывающее окошко' className="popup__close-button" type="button"/>
                 <div className="popup__container">
                     <form action="#" aria-label='получения инфо и передачи данных' className="popup__form"
                           id="popup-mega-id" method="GET" name="resaveProfile" noValidate>
@@ -151,15 +168,15 @@ export default function App() {
                     </form>
                 </div>
             </section>
+*/}
 
-
-            <section className="popup popup_country">
+            {/*            <section className=  {`popup popup_country popup_type_edit ${isAddPlacePopupOpen ? "popup_opened" : ""} `}>
                 <button aria-label='Закрыть всплывающее окошко' className="popup__close-button" type="button"/>
                 <div className="popup__container">
                     <form action="#" aria-label='получения инфо и передачи данных в адресной строке'
                           className="popup__form" id="popup-input-mega-id" method="GET" name="resaveCountry" noValidate>
                         <label className="popup__label">
-                            <h2 className="popup__page">Редактировать Новое место</h2>
+                            <h2 className="popup__page">Редактировать</h2>
                             <input className="popup__field" id="popup-field-card-name" maxLength="30" minLength="2"
                                    name="popup-input-place" placeholder="Название" required type="text" value=''/>
                             <span className="popup__input-error" id="popup-field-card-name-error"/>
@@ -173,12 +190,12 @@ export default function App() {
                         </button>
                     </form>
                 </div>
-            </section>
+            </section>*/}
 
-
-            <section className="popup popup_type_image">
+            {/*
+            <section className= {`popup popup_type_image popup_type_edit ${isConfirmDeletePopup ? "popup_opened" : ""} `}>
                 <div className="popup__combine-image">
-                    {/*<div style="alignment: right">*/}
+                 <div style={{alignment: right}}>
                     <div>
                         <button aria-label='Закрыть всплывающее окошко'
                                 className="popup__close-button popup__close-button-no-rel" type="button"/>
@@ -187,10 +204,13 @@ export default function App() {
                         <div className="popup__container-image"/>
                         <img alt="Большая картинка" className="popup__image"/> <h2 className="popup__image-word"/>
                     </div>
-                </div>
-            </section>
+                    </div>
+            </div>
+            </section>*/}
+
+
             <Footer/>
-            <section className="popup popup_delete-confirm">
+            {/*<section  className= {`popup popup_delete-confirm  popup_type_edit ${isEditProfilePopupOpen ? "popup_opened" : ""} `}>
                 <button aria-label='Закрыть всплывающее окошко' className="popup__close-button" type="button"/>
                 <div className="popup__container-delete-confirm">
                     <form action="#" aria-label='Вы уверены, что хотите удалить карточку?' className="popup__form"
@@ -200,9 +220,8 @@ export default function App() {
                         </button>
                     </form>
                 </div>
+            </section>*/}
 
-
-            </section>
             <template className="item-template">
                 <div className="elements__card" id="template-id">
                     <div className="elements__trash-image">

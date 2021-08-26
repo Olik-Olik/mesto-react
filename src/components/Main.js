@@ -1,32 +1,24 @@
-import React from "react";
-
-//import '../index.css';
+import React, {useEffect} from "react";
 import Card from './Card';// прописать Карточки!!!
 import {CurrentUserContext} from "./CurrentUserContext";
+
 //!*применять контексты для решения всех проблем связанных с передачей состояния*!/
 //!* попробую всунуть хук «useContext». Хук «useContext» используется для создания  данных,
 // к которым можно обращаться по всей иерархии компонентов и ко всем пропсам
 //  до каждого уровня.
 //Определенный контекст будет доступен для всех дочерних компонентов без использования props*!/
-function Main(props/*{
 
-                  handleEditAvatarClick,
-                  handleEditProfileClick,
-                  handleAddPlaceClick,
-
-                  isEditAvatarPopupOpen,
-                  isEditProfilePopupOpen,
-                  isAddPlacePopupOpen,
-
-    //inside my Card
-                  cards,
-                  onCardClick,
-              }*/
-) {
+function Main(props)
+ {
       const currentUserContext = React.useContext(CurrentUserContext);
       const handleProfileOpen = (evt) => {
           console.log("I'm a superstar!!!")
-          props.isEditProfilePopupOpen(true) }
+          props.isEditProfilePopupOpen(true)
+      }
+//запускается после каждой отрисовки
+          useEffect(() => {
+              this.props.getData()}, [])
+
     return (
         <main className="container">
             <section className="profile">
@@ -57,7 +49,8 @@ function Main(props/*{
                     />
                 </div>
             </section>
-{/*Для этого его нужно «пробросить» в компонент Card сквозь компонент Main — в виде пропса onCardClick.*/}
+{/*Для этого его нужно «пробросить» в компонент Card сквозь компонент Main —
+в виде пропса onCardClick.*/}
             <section className="elements">
                 { props.cards ||
                  props.cards.map(card => (<Card card = {card}
@@ -69,7 +62,7 @@ function Main(props/*{
                 }
             </section>
         </main>
-    );
-}
+    );}
+
 
 export default Main;

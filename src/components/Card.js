@@ -1,22 +1,26 @@
 import React from "react";
+import {CurrentUserContext} from "./CurrentUserContext";
 
 function Card(props) {
+const currentUserContext =React.useContext(CurrentUserContext);
+
+    function handleCardClick(){
+        props.onCardClick(props.card)}
     return (
         //разметку верну
         <div className="elements__card" id="template-id">
-            {/* <div class="elements__trash-image">
-        <button aria-label='Удаление элемента' class="elements__trash" type="button"></button>*/}
+             <div className="elements__trash-image">
+            <button aria-label='Удаление элемента' className="elements__trash" type="button" />
             <img alt="Картинка" className="elements__image"/>
             <div className="elements__combine">
-                <h2 className="elements__word"/>
-                {/*   <div className="elements__container-like">
-            <button aria-label='Лайк' class="elements__like-button elements__like" type="button"></button>
-            <p class="elements__like-count"></p>*/}
+            <h2 className="elements__word"/>
+                <div className="elements__container-like">
+            <button aria-label='Лайк' className="elements__like-button elements__like" type="button" />
+            <p className="elements__like-count" />
             </div>
         </div>
-    );
-    /*    function handleCardClick(){
-            props.onCardClick(props.card)}*/
-}
+         </div>
+        </div>
+    );}
 
 export default Card;

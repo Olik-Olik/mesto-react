@@ -1,32 +1,48 @@
 import React from "react";
-//пропсы title и name
-//className={`popup popup_type_${props.name}`}  Замечание 1.
 function PopupWithForm(props) {
     return (
-        <section className={`popup popup_type_${props.name}`}>
-        <div className={`popup ${props.isOpen ? "popup_opened" : ""} `}>
-            <button aria-label='Закрыть'
-                    className="popup__close-button"
-                    type="button"
-                    onClick={props.onClose}/>
-            <div className="popup__container popup__form">
-                <form action="#" aria-label='получения инфо и передаче данных в адресной строке'
-                     // Значение пропса name будет использоваться туточки тоже
-                      className="popup__form"
-                      id="popup-input-mega-id"
-                      method="GET"
-                      name="resaveCountry"
-                      noValidate
-                      onSubmit={props.onSubmit} />
+
+
+        <section className={`popup popup_country popup_type_edit ${props.isOpen ? "popup_opened" : ""} `}>
+                     {/*{`popup popup_type_${props.name}`}>*/}
+            <button aria-label='Закрыть всплывающее окошко' className="popup__close-button" type="button"  onClick={props.onClose}/>
+            <div className="popup__container">
+
+                <form action="#"  name="resaveCountry" className="popup__form"
+                      aria-label='получения инфо и передачи данных в адресной строке'
+                      id="popup-input-mega-id" method="GET"  noValidate onSubmit={props.onSubmit}>
+
+                    <label className="popup__label">
+                        <span className="popup__input-error" id="popup-field-card-name-error"/>
+                    </label>
+
+                        <h2 className="popup__page">Редактировать</h2>
+
+                        <label className="popup__label">
+                        <input className="popup__field" id="popup-field-card-name" maxLength="30" minLength="2"
+                               name="popup-input-place" placeholder="Название" required type="text" value=''/>
+
+                        <span className="popup__input-error" id="popup-field-card-img-error"/>
+
+                    </label>
+
                 {props.children}
                 <button aria-label='Кнопка Создать место'
                         className={`popup__save ${!props.buttonSubmitState} ? "" : ""`}
                         type="submit"> {`${props.buttonText}`} </button>
 
+                </form>
             </div>
-        </div>
         </section>
-    );
+    )
 }
-
 export default PopupWithForm;
+
+
+
+
+
+
+
+
+
