@@ -16,9 +16,9 @@ function Main(props)
           props.isEditProfilePopupOpen(true)
       }
 //запускается после каждой отрисовки
-          useEffect(() => {
-              this.props.getData()}, [])
-
+  /*        useEffect(() => {
+              props.getData()}, [])
+*/
     return (
         <main className="container">
             <section className="profile">
@@ -52,7 +52,7 @@ function Main(props)
 {/*Для этого его нужно «пробросить» в компонент Card сквозь компонент Main —
 в виде пропса onCardClick.*/}
             <section className="elements">
-                { props.cards ||
+                { props.cards &&
                  props.cards.map(card => (<Card card = {card}
                                              Key = {card._id}
                                              onCardClick = {props.onCardClick} />

@@ -1,25 +1,36 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import isEditAvatarPopupOpen from "./App"
 import PopupWithForm from "./PopupWithForm";
 
-function EditAvatarPopup1(props){
+function EditAvatarPopup(props){
+
+ const [handleAva, sethandleAva] = useState('');
+
     function handleClose(evt) {
         if (evt.target.classList.contains('popup'))
             props.onClose();
     }
-    function onSubmit(evt) {
+
+    function handleSubmit(evt) {
         evt.preventDefault();
-        props.onDelete(props.selectedCard) //описать
+       /* props.onDelete(props.selectedCard) //описать*/
         props.onClose()
     }
-return(
+
+/*
+    useEffect(() => {
+        props.avatar.current.value = '';
+    }, [props.isOpen])
+
+*/
+    return(
     <PopupWithForm
         onClose = {props.onClose}
         name = ""
         title = "Редактировать аватар"
         isOpen = {props.isOpen}
         onSubmit = {props.onSubmit} // не описано еще и хз надо ли
-        buttonText = "Сохранить"
+        buttonText = "Сохранить">
 
 
         <section  className={`popup popup_type_edit-avatar popup_type_edit ${isEditAvatarPopupOpen ? "popup_opened" : ""} `} >
@@ -51,6 +62,7 @@ return(
             </button>
         </div>
     </section>
+    </PopupWithForm>
 )
 }
-export default EditAvatarPopup1;
+export default EditAvatarPopup;

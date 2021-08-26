@@ -1,11 +1,12 @@
 import React from "react";
 //не имеет пропсов и вложенного содержимого.
-function ImagePopup({props}){
+function ImagePopup(props){
     return (
-    <div className = {`popup ${props.card.src && "popup_open"} popup_type_image`}>
+    <div className = {`popup ${props.isOpen ? "popup_opened" : ""} popup_type_image`}>
      <div className="popup__combine-image">
          <div>
-            <div style="alignment: right">
+            {/*<div style="alignment: right">*/}
+             <div>
             <button type="button"
             onClick={props.onClose}
             aria-label='Закрыть'
@@ -15,7 +16,7 @@ function ImagePopup({props}){
                <div className =  "popup__container-image" >
                <img className="popup__image"
                     alt="Большая картинка"
-
+                    src="{props.card.src}"
                      />
                <h2 className="popup__image-word" />
               </div>

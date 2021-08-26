@@ -25,10 +25,12 @@ function AddPlacePopup( addPlace, onClose, isOpen){
                 sethandleUrlPlace(evt.target.value)}
 
 //можем извлекать данные или любой императивный api .Хук запускается после каждой отрисовки.Дом будет обновлен к моменту запуска эффекта.
+/*
         useEffect( {
                   title: sethandleTitle(''),
-                  name:  sethandleUrlPlace('')}/*, [isOpen]*/) //проверить
+                  name:  sethandleUrlPlace('')}/!*, [isOpen]*!/) //проверить
 
+*/
 
 return(
     <PopupWithForm

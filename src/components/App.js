@@ -7,7 +7,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from "./ImagePopup";
 import api from '../utils/Api';
 import AddPlacePopup from "./AddPlacePopup";
-import EditAvatarPopup1 from "./EditAvatarPopup1";
+import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 
 export default function App() {
@@ -23,11 +23,13 @@ export default function App() {
 /*Импортируйте модуль api и добавьте эффект, вызываемый при монтировании компонента,
  который будет совершать запрос в API за пользовательскими данными.
  После получения ответа задавайте полученные данные в соответствующие переменные состояния.*/
+/*
     useEffect(() => {
         api.getUserInfo().then((userInfo) => {
             setCurrentUser(userInfo)
         });
     }, []);
+*/
 
 
     function handleEditAvatarClick(evt) {
@@ -54,14 +56,16 @@ export default function App() {
         setisEditAvatarPopupOpen(false);
         setisEditProfilePopupOpen(false);
         setisAddPlacePopupOpen(false);
-        setSelectedCard(undefined);
+        /*setSelectedCard(undefined);*/
     }
     /**/
+/*
     React.useEffect(() => {
         api.getUserInfo().then((userInfo) => {
             setCurrentUser(userInfo)
         });
     }, []);
+*/
 
     return (
         <>
@@ -90,7 +94,7 @@ export default function App() {
             />
 
 
-            <EditAvatarPopup1.js
+            <EditAvatarPopup
                 isOpen={isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
                 buttonText="Cохранить"/>
@@ -106,10 +110,10 @@ export default function App() {
                 buttonText="Добавить"/>
 
             {/* из 4 ех  попапов общая разметка */}
-            <PopupWithForm
+            {/*<PopupWithForm
                 isOpen={false}
                 onClose={closeAllPopups}
-                buttonText="Да"/>
+                buttonText="Да"/>*/}
 
             {/*Показывайте полноразмерную картинку при клике*/}
             <ImagePopup

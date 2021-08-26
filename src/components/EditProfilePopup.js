@@ -6,26 +6,24 @@ function EditProfilePopup(addProfile, onClose, isOpen){
     //стейты
 
     const [handleTitle, sethandleTitle] = useState('');
-    const [handleJob,sethandleJob] = useState('');
+    const [handleJob, sethandleJob] = useState('');
 
     function handleClose(evt) {
         if (evt.target.classList.contains('popup'))
             onClose();
     }
-
     function handleSubmit(evt) {
         evt.preventDefault();
         addProfile(       {title:handleTitle, //блин и как это место описать чтобы не undefined
                             name:handleJob})
         onClose()
     }
-
+/*
     useEffect( {
         title: sethandleTitle('Жак-Ив Кусто'),
         name:  sethandleJob('Исследователь океана')}, [isOpen]) //проверить
-
+*/
     return(
-
     <PopupWithForm
         onClose = {onClose}
         name = ""
