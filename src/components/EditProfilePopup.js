@@ -1,29 +1,36 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import isEditProfilePopupOpen from './App';
 import PopupWithForm from "./PopupWithForm";
-function EditProfilePopup(props){
+function EditProfilePopup(addProfile, onClose, isOpen){
 
     //стейты
 
     const [handleTitle, sethandleTitle] = useState('');
-    const [handleUrlPlace,sethandleUrlPlace] = useState('');
+    const [handleJob,sethandleJob] = useState('');
 
     function handleClose(evt) {
         if (evt.target.classList.contains('popup'))
-            props.onClose();
+            onClose();
     }
+
     function handleSubmit(evt) {
         evt.preventDefault();
-        props.onDelete(props.selectedCard) //описать
-        props.onClose()
+        addProfile(       {title:handleTitle, //блин и как это место описать чтобы не undefined
+                            name:handleJob})
+        onClose()
     }
-return(
+
+    useEffect( {
+        title: sethandleTitle('Жак-Ив Кусто'),
+        name:  sethandleJob('Исследователь океана')}, [isOpen]) //проверить
+
+    return(
 
     <PopupWithForm
-        onClose = {props.onClose}
+        onClose = {onClose}
         name = ""
         title = "Редактировать профиль"
-        isOpen = {props.isOpen}
+        isOpen = {isOpen}
         onSubmit = {handleSubmit} // не описано еще и хз надо ли
         buttonText = "Сохранить"
     >
@@ -59,7 +66,7 @@ return(
                            placeholder="Ваше имя"
                            required
                            type="text"
-                           value='Жак-Ив Кусто'/>
+                           />
 
             <span/>
                     <span className="popup__input-error" id="popup-field-name-error"/>
@@ -68,14 +75,14 @@ return(
              </label>
                    <label className="popup__label">
                     <input className="popup__field"
-                           value={handleTitle ? handleTitle : ''}
+                           value={handleJob ? handleJob : ''}
                            id="popup-field-job"
                            maxLength="200"
                            minLength="2"
                            name="inputForm_job"
                            placeholder="Род занятия"
                            required type="text"
-                           value='Исследователь океана'/>
+                           />
                     <span className="popup__input-error"
                           id="popup-field-job-error"/>
                 </label>

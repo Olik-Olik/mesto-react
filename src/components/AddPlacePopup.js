@@ -15,7 +15,7 @@ function AddPlacePopup( addPlace, onClose, isOpen){
         //самбит карточки
         function handleSubmit(evt) {
                 evt.preventDefault();
-               addPlace({title:handleTitle, //блин и как это место описать чтобы не undefined
+               addPlace(       {title:handleTitle, //блин и как это место описать чтобы не undefined
                                 name:handleUrlPlace})
         }
         //теперь обработчик  места и ссылки
