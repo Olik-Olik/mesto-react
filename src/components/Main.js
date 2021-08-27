@@ -1,6 +1,7 @@
-import React, {useEffect} from "react";
+import React, {useEffect,useState} from "react";
 import Card from './Card';// прописать Карточки!!!
 import {CurrentUserContext} from "./CurrentUserContext";
+import api from "../utils/Api";
 
 //!*применять контексты для решения всех проблем связанных с передачей состояния*!/
 //!* попробую всунуть хук «useContext». Хук «useContext» используется для создания  данных,
@@ -8,9 +9,15 @@ import {CurrentUserContext} from "./CurrentUserContext";
 //  до каждого уровня.
 //Определенный контекст будет доступен для всех дочерних компонентов без использования props*!/
 
-function Main(props)
- {
-      const currentUserContext = React.useContext(CurrentUserContext);
+
+
+function Main(props){
+const[userName,setuserName]  = useState({});
+const[userDescription,setuserDescription]  = useState({});
+const[userAvatar, setuserAvatar]  = useState({});
+const currentUserContext = React.useContext(CurrentUserContext);
+/*"https://bipbap.ru/wp-content/uploads/2018/04/another-costa-rica-night-sky-includes-volcano-s1920x1278-410769-1020.jpg"*/
+
 
      const handleEditAvatarOpen = (evt) => {
          console.log("I'm a superstar 1!!!")
@@ -31,10 +38,11 @@ function Main(props)
          props.setisEditProfilePopupOpen(true)
      }
 
-//запускается после каждой отрисовки
-  /*        useEffect(() => {
-              props.getData()}, [])
-*/
+//запускается после каждой отрисовки бред полнейший
+/*    React.useEffect(() => {
+        api.getUserInfo().then((userDescription) => {
+            setuserDescription(userDescription) }); }, []);*/
+
     return (
         <main className="container">
             <section className="profile">
@@ -42,6 +50,8 @@ function Main(props)
                     <div className="profile__person-infobox">
                         <img alt="Аватар того, кто его вносит" className="profile__avatar"
                              src ={`${currentUserContext.avatar}`}
+                             style={{ backgroundImage: `url(${"https://bipbap.ru/wp-content/uploads/2018/04/another-costa-rica-night-sky-includes-volcano-s1920x1278-410769-1020.jpg"})` }}
+                            /*style={{ backgroundImage: `url(${userAvatar})` }}*/
                         />
                         <div className="profile__avatar-edit-container">
                             <button className="profile__foto-edit-button" type="button"
@@ -50,7 +60,8 @@ function Main(props)
                     </div>
                     <div className="profile__info">
                         <div className="profile__title-edit-button">
-                            <h1 className="profile__title">{`${currentUserContext.name}`}</h1>
+                            <h1 className="profile__title">{`БЕЛОСНЕЖКА`}</h1>
+                     {/*       <h1 className="profile__title">{`${currentUserContext.name}`}</h1>*/}
                             <button className="profile__edit-button" type="button"
                                      onClick={handleEditProfileOpen}
                             />
@@ -77,7 +88,11 @@ function Main(props)
                 { props.cards &&
                  props.cards.map(card => (<Card card = {card}
                                              Key = {card._id}
-                                             onCardClick = {props.onCardClick} />
+                                             onCardClick = {props.onCardClick}
+                                             src = {card.src}
+                                              title={card.title}
+
+                         />
                                     )
                             )
 

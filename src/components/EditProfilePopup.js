@@ -14,17 +14,17 @@ function EditProfilePopup(props) {
     function handleSubmit(evt) {
         evt.preventDefault();
         props.addProfile({
-             title: handleTitle, //блин и как это место описать чтобы не undefined
-              name: handleJob
-        })
+             title: handleTitle('Жак-Ив Кусто'), //блин и как это место описать чтобы не undefined
+              name: handleJob('Исследователь океана')})
+
         props.onClose()
     }
 
-    /*
-        useEffect( {
+/*
+        React.useEffect( {
             title: sethandleTitle('Жак-Ив Кусто'),
-            name:  sethandleJob('Исследователь океана')}, [isOpen]) //проверить
-    */
+            name:  sethandleJob('Исследователь океана')}, [props.isOpen]) //проверить*/
+
     return (
         <PopupWithForm
             onClose={props.onClose}
@@ -38,7 +38,7 @@ function EditProfilePopup(props) {
             <label className="popup__label">
 
                 <input className="popup__field"
-                       value={handleTitle ? handleTitle : ''}
+                       value={handleTitle ? handleTitle : 'Хороший человек'}
                        id="popup-field-name"
                        maxLength="40" minLength="2"
                        name="inputForm_name"
@@ -50,7 +50,7 @@ function EditProfilePopup(props) {
 
             <label className="popup__label">
                 <input className="popup__field"
-                       value={handleJob ? handleJob : ''}
+                       value={handleJob ? handleJob : 'Погонятель пингвинов'}
                        id="popup-field-job"
                        maxLength="200"
                        minLength="2"

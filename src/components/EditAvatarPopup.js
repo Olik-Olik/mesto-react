@@ -52,6 +52,7 @@ function EditAvatarPopup(props){
                        name="input-avatar"
                        placeholder="Ссылка на новую аватарку"
                        required
+                     /*  style={{ backgroundImage: `url(${props.userAvatar})` }}*/
                        type="url"
                        value=''/>
                 <span className="popup__input-error" id="popup-avatar-link-error"/>
