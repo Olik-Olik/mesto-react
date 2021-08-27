@@ -16,8 +16,8 @@ function AddPlacePopup(props){
         //самбит карточки
         function handleSubmit(evt) {
                 evt.preventDefault();
-               props.addPlace(       {title:handleTitle, //блин и как это место описать чтобы не undefined
-                                name:handleUrlPlace})
+                props.addPlace(       {title:handleTitle, //блин и  это место описать чтобы не undefined
+                                       name:handleUrlPlace})
         }
         //теперь обработчик  места и ссылки
         function handleChangeTitle(evt){
@@ -32,7 +32,6 @@ function AddPlacePopup(props){
                   name:  sethandleUrlPlace('')}/!*, [isOpen]*!/) //проверить
 
 */
-
 return(
     <PopupWithForm
         onClose = {props.onClose}
@@ -42,18 +41,18 @@ return(
         onSubmit = {handleSubmit}
         buttonText = "Сохранить"
         >
-        <section className=  {`popup popup_country popup_type_edit ${isAddPlacePopupOpen ? "popup_opened" : ""} `}>
+  {/*      <section className=  {`popup popup_country popup_type_edit ${isAddPlacePopupOpen ? "popup_opened" : ""} `}>
         <button className="popup__close-button"
                 aria-label='Закрыть всплывающее окошко'
                 onClick= {(evt) => handleClose(evt)}
                 type="button"/>
-        <div className="popup__container">
-        <form  className="popup__form"
+        <div className="popup__container">*/}
+   {/*     <form  className="popup__form"
                action="#"  name="resaveCountry"
                aria-label='получения инфо и передачи данных в адресной строке'
                id="popup-input-mega-id"
                method="GET"
-               noValidate>
+               noValidate>*/}
 
         <label className="popup__label">
         <h2 className="popup__page">Редактировать</h2>
@@ -84,14 +83,14 @@ return(
         <span className="popup__input-error"
               id="popup-field-card-img-error"/>
         </label>
-        <button className="popup__save"
+       {/* <button className="popup__save"
                 aria-label='Кнопка Создать место'
                 onClick={(evt) => handleSubmit(evt)}
                 type="submit">Создать
         </button>
         </form>
         </div>
-        </section>
+        </section>*/}
             </PopupWithForm>
 );}
     export default AddPlacePopup;

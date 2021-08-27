@@ -25,6 +25,12 @@ function Main(props)
           console.log("I'm a superstar 3!!!")
           props.setisAddPlacePopupOpen(true)
       }
+
+     const handleDeleteConfirmOpen = (evt) => {
+         console.log("handleConfirmDeletePopup")
+         props.setisEditProfilePopupOpen(true)
+     }
+
 //запускается после каждой отрисовки
   /*        useEffect(() => {
               props.getData()}, [])
@@ -54,10 +60,16 @@ function Main(props)
                 </div>
                 <div className="profile__button-container">
                     <button className="profile__add-button" type="button"
-/*                          onClick={props.isAddPlacePopupOpen}*/
-                            onClick={handleAddPlaceOpen}
-                    />
+                            onClick={handleAddPlaceOpen} />
                 </div>
+                {/*<div className="popup__container-delete-confirm">
+                    <form action="#" aria-label='Вы уверены, что хотите удалить карточку?' className="popup__form"
+                          id="popup-delete-card" name="deleteConfirmCard" noValidate>
+                        <label className="popup__label"><h2 className="popup__page">Вы уверены?</h2></label>
+                        <button aria-label='Кнопка уверенности в закрытии' className="popup__save" type="submit">Да
+                        </button>
+                    </form>
+                </div>*/}
             </section>
 {/*Для этого его нужно «пробросить» в компонент Card сквозь компонент Main —
 в виде пропса onCardClick.*/}

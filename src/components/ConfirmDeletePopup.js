@@ -12,11 +12,11 @@ function ConfirmDeletePopup(props) {
     }
     function handleSubmit(evt) {
         evt.preventDefault();
-       /* props.сохранить(props.selectedCard) //описать*/
+       /* props.(props.selectedCard)*/
         props.onClose();
     }
     return (
-        <section  className={`popup popup_delete-confirm  popup_type_edit ${isConfirmDeletePopup ? "popup_opened" : ""} `}>
+      /*  <section  className={`popup popup_delete-confirm  popup_type_edit ${isConfirmDeletePopup ? "popup_opened" : ""} `}>
                    <button className="popup__close-button"
                            aria-label='Закрыть всплывающее окошко'
                            onClick={(evt) => handleClose(evt)}
@@ -27,21 +27,23 @@ function ConfirmDeletePopup(props) {
                        aria-label='Вы уверены, что хотите удалить карточку?'
                        id="popup-delete-card"
                        name="deleteConfirmCard"
-                       noValidate>
+                       noValidate>*/
                     <label className="popup__label">
                         <h2 className="popup__page"
-                            onClick={props.onClose} //не факт, что можно повесить, но попробую , зотя-даже и не нужно,проверить
+                            onClick={props.onClose} //не факт, что можно повесить,проверить
                         >Вы уверены?</h2>
                     </label>
-                    <button className="popup__save"
+               /*    <button className="popup__save"
                             aria-label='Кнопка уверенности в закрытии'
-                            onClick={(evt) => handleSubmit(evt)}
+                            onClick={(evt) => handleSubmit(evt)} //это функция , а не пропс
                             type="submit">Да
+                    </button>*/
 
-                    </button>
-                    </form>
+
+
+      /*              </form>
                     </div>
-        </section>
+        </section>*/
     )
 }
 export default ConfirmDeletePopup;

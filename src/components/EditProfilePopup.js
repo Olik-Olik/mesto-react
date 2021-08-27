@@ -14,8 +14,8 @@ function EditProfilePopup(props) {
     function handleSubmit(evt) {
         evt.preventDefault();
         props.addProfile({
-            title: handleTitle, //блин и как это место описать чтобы не undefined
-             name: handleJob
+             title: handleTitle, //блин и как это место описать чтобы не undefined
+              name: handleJob
         })
         props.onClose()
     }
