@@ -15,7 +15,7 @@ function EditProfilePopup(props) {
         evt.preventDefault();
         props.addProfile({
             title: handleTitle, //блин и как это место описать чтобы не undefined
-            name: handleJob
+             name: handleJob
         })
         props.onClose()
     }
@@ -36,7 +36,7 @@ function EditProfilePopup(props) {
         >
             <h2 className="popup__page">Редактировать профиль</h2>
             <label className="popup__label">
-                <input/>
+
                 <input className="popup__field"
                        value={handleTitle ? handleTitle : ''}
                        id="popup-field-name"
@@ -44,12 +44,10 @@ function EditProfilePopup(props) {
                        name="inputForm_name"
                        placeholder="Ваше имя"
                        required
-                       type="text"
-                />
-
-                <span/>
+                       type="text" />
                 <span className="popup__input-error" id="popup-field-name-error"/>
             </label>
+
             <label className="popup__label">
                 <input className="popup__field"
                        value={handleJob ? handleJob : ''}

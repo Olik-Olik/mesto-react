@@ -99,12 +99,14 @@ export default function App() {
             />
 
 
-{/*
+
+
             <EditAvatarPopup
                 isOpen={isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
                 buttonText="Cохранить"/>
-*/}
+
+
 
             <EditProfilePopup
                 isOpen={isEditProfilePopupOpen}

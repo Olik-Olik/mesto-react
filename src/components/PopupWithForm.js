@@ -4,7 +4,7 @@ function PopupWithForm(props) {
     return (
 
 
-        <section className={`popup popup_country popup_type_edit ${props.isOpen ? "popup_opened" : ""} `}>
+        <section className={`popup  popup_type_edit ${props.isOpen ? "popup_opened" : ""} `}>
             {/*{`popup popup_type_${props.name}`}>*/}
             <button aria-label='Закрыть всплывающее окошко' className="popup__close-button" type="button"
                     onClick={props.onClose}/>
@@ -18,19 +18,18 @@ function PopupWithForm(props) {
                         <span className="popup__input-error" id="popup-field-card-name-error"/>
                     </label>
 
-                    <h2 className="popup__page">Редактировать</h2>
-
+      {/*              <h2 className="popup__page">Редактировать</h2>
                     <label className="popup__label">
                         <input className="popup__field" id="popup-field-card-name" maxLength="30" minLength="2"
                                name="popup-input-place" placeholder="Название" required type="text" value=''/>
 
                         <span className="popup__input-error" id="popup-field-card-img-error"/>
 
-                    </label>
+                    </label>*/}
 
                     {props.children}
                     <button aria-label='Кнопка Создать место'
-                            className="popup__save {`${(not props.buttonSubmitState) ? 'aaa' : 'bbb'}`}"
+                            className="popup__save {`${(not props.buttonSubmitState) ? '' : ''}`}"
                             type="submit"> {`${props.buttonText}`} </button>
 
                 </form>

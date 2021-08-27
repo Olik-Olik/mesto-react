@@ -11,6 +11,7 @@ import {CurrentUserContext} from "./CurrentUserContext";
 function Main(props)
  {
       const currentUserContext = React.useContext(CurrentUserContext);
+
      const handleEditAvatarOpen = (evt) => {
          console.log("I'm a superstar 1!!!")
          props.setisEditAvatarPopupOpen(true)
