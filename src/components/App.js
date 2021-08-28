@@ -7,7 +7,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
-import Card from "./Card";
+import ImagePopup from "./ImagePopup";
 import api from "../utils/Api"
 //import {useState, useEffect} from "react";
 
@@ -16,6 +16,7 @@ export default function App() {
     const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] = React.useState(false);
     const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
+    const [isImagePopupOpen, setisImagePopupOpen] = React.useState(false);
     /*  const [isConfirmDeletePopup, setConfirmDeletePopup] = React.useState(false);*/
     const [cards, setCards] = React.useState([]);
     const [currentUser, setCurrentUser] = React.useState({});
@@ -31,7 +32,7 @@ export default function App() {
         return api.getUserInfo();
     }
 
-    function fetchInitData(){
+    function fetchInitData() {
         Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
             const initialCards = values[1];
             const userProfileInfo = values[0];
@@ -42,41 +43,15 @@ export default function App() {
                 'id': userProfileInfo._id
             }
             setCurrentUser(userInfo);
-            console.log('Got cards! : ' + initialCards.toString());
+            console.log('Got cards!');
             setCards(initialCards);
         })
             .catch((err) => {
                 console.log('MAMA!!!: ' + err.toString())
             });
     }
-//cards
+
     useEffect(fetchInitData, []);
-//принимает в себя дефолтное значение для переменной стейта и возвращает массив
-//первая-значение стейт переменной вторая-функция для обновления стейт переменной
-
-//user
-
-
-   /*  useEffect(() => {
-         api.getUserInfo().then((userInfo) => {
-             setCurrentUser(userInfo)
-         });
-     }, []);
-*/
-
-    /*useEffect(() => {
-        api.search(search).then(res => {
-            {
-                console.log(res);
-            }
-        }, [])
-        return (
-            <div className="App">
-                <Card> </Card>
-
-            </div>);
-    })*/
-
 
     function handleEditAvatarClick(evt) {
         console.log("I'm a walrus!!!")
@@ -96,6 +71,7 @@ export default function App() {
     function handleCardClick(card) {
         console.log("I'm a walrus 4!!!")
         setSelectedCard(card);
+        setisImagePopupOpen(true);
     }
 
     function handleConfirmDeletePopup(evt) {
@@ -108,24 +84,15 @@ export default function App() {
         setisEditAvatarPopupOpen(false);
         setisEditProfilePopupOpen(false);
         setisAddPlacePopupOpen(false);
-        /* setisImagePopupOpen(false);*/
-        setisConfirmDeletePopup(false);
+        setisImagePopupOpen(false);
+/*        setisConfirmDeletePopup(false);*/
     }
-
 
     /*    //пока удаление не нужно
         function handleDeleteConfirm(){
             setisConfirmDeletePopup(true)
             closeAllPopups()
         }*/
-
-    /*
-        React.useEffect(() => {
-            api.getUserInfo().then((userInfo) => {
-                setCurrentUser(userInfo)
-            });
-        }, []);
-    */
 
     return (
         <>
@@ -134,15 +101,18 @@ export default function App() {
             <Main
                 currentUser={currentUser}
                 cards={cards}
+                onCardClick={handleCardClick}
                 setisEditAvatarPopupOpen={(evt) => {
                     console.log("I'm a superstar avatar!!!")
                     handleEditAvatarClick(evt)
                     /*  isEditAvatarPopupOpen = {isEditAvatarPopupOpen}*/
                 }}
+
                 setisEditProfilePopupOpen={(evt) => {
                     console.log("I'm a superstar too!!!")
                     handleEditProfileClick(evt)
                 }}
+
                 setisAddPlacePopupOpen={(evt) => {
                     console.log("I'm a superstar too too!!!")
                     handleAddPlaceClick(evt)
@@ -150,6 +120,10 @@ export default function App() {
 
                 setisConfirmDeletePopup={(evt) =>
                     handleConfirmDeletePopup(evt)
+                }
+
+                setisImagePopup={(evt) =>
+                    handleCardClick(evt)
                 }
 
                 /*function handleSubmitProfileClick{(evt) =>
@@ -176,11 +150,6 @@ export default function App() {
                 onClose={closeAllPopups}
                 buttonText="Добавить"/>
 
-            {/*<PopupWithForm
-                isOpen={false}
-                onClose={closeAllPopups}
-                buttonText="Да"/>*/}
-
             <ConfirmDeletePopup
                 isOpen={isConfirmDeletePopup}
                 onClose={closeAllPopups}
@@ -188,11 +157,11 @@ export default function App() {
             { /*  isRemove={handleRemoveClick}
              isSubmit={handleSubmitConfirmClick}*/}
 
-            {/*     <ImagePopup
-            isOpen={isImagePopupOpen}
+            <ImagePopup
+                isOpen={isImagePopupOpen}
                 card={selectedCard}
                 onClose={closeAllPopups}
-                />*/}
+                />
             <Footer/>
             </body>
         </>

@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import Card from './Card'; // прописать Карточки!!!
-import {CurrentUserContext} from "./CurrentUserContext";
 
 //!*применять контексты для решения всех проблем связанных с передачей состояния*!/
 //!* попробую всунуть хук «useContext». Хук «useContext» используется для создания  данных,
@@ -13,7 +12,7 @@ function Main(props) {
     const [userName, setuserName] = useState({});
     const [userDescription, setuserDescription] = useState({});
     const [userAvatar, setuserAvatar] = useState({});
-   /* const currentUserContext = React.useContext(CurrentUserContext);*/
+    /* const currentUserContext = React.useContext(CurrentUserContext);*/
     /*"https://bipbap.ru/wp-content/uploads/2018/04/another-costa-rica-night-sky-includes-volcano-s1920x1278-410769-1020.jpg"*/
 
 
@@ -36,10 +35,10 @@ function Main(props) {
         props.setisEditProfilePopupOpen(true)
     }
 
-//запускается после каждой отрисовки бред полнейший
-    /*    React.useEffect(() => {
-            api.getUserInfo().then((userDescription) => {
-                setuserDescription(userDescription) }); }, []);*/
+    const handleImagePopupOpen = (evt) => {
+        console.log("handleImagePopupOpen")
+        props.setisImagePopup(true)
+    }
 
     return (
         <main className="container">
@@ -48,8 +47,7 @@ function Main(props) {
                     <div className="profile__person-infobox">
                         <img alt="Аватар того, кто его вносит" className="profile__avatar"
                              src={props.currentUser.avatar}
-                             style={{backgroundImage: `url(${"https://bipbap.ru/wp-content/uploads/2018/04/another-costa-rica-night-sky-includes-volcano-s1920x1278-410769-1020.jpg"})`}}
-                            /*style={{ backgroundImage: `url(${userAvatar})` }}*/
+                             style={{ backgroundImage: `url(${userAvatar})` }}
                         />
                         <div className="profile__avatar-edit-container">
                             <button className="profile__foto-edit-button" type="button"
@@ -58,7 +56,7 @@ function Main(props) {
                     </div>
                     <div className="profile__info">
                         <div className="profile__title-edit-button">
-                                   <h1 className="profile__title">{props.currentUser.name}</h1>
+                            <h1 className="profile__title">{props.currentUser.name}</h1>
                             <button className="profile__edit-button" type="button"
                                     onClick={handleEditProfileOpen}
                             />
@@ -83,15 +81,14 @@ function Main(props) {
 в виде пропса onCardClick.*/}
             <section className="elements">
                 {props.cards &&
-                 props.cards.map(card => (
-                     console.log(card.name),
-                     <Card card={card}
-                           key={card._id}
-                           onCardClick={props.onCardClick}
-                           src={card.link}
-                           title={card.name}
-                           alt={card.name}
-                     />)
+                props.cards.map(card => (
+                    <Card card={card}
+                          key={card._id}
+                          onCardClick={props.onCardClick}
+                          src={card.link}
+                          title={card.name}
+                          alt={card.name}
+                    />)
                 )
 
                 }

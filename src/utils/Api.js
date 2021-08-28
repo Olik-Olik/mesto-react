@@ -1,6 +1,6 @@
 //import React from "react";
 
- class Api {
+class Api {
     constructor(arr) {
         this._address = arr.address;
         this._headers = arr.headers;
@@ -42,6 +42,8 @@
 
 
     setUserInfo(inputNameUserInfo, inputAboutUserInfo) {
+        console.log(inputNameUserInfo);
+        console.log(inputAboutUserInfo);
         return fetch(this._address + '/users' + '/me', {
             headers: this._headers,
             method: 'POST', //Роst запрос через body
@@ -124,12 +126,13 @@
     }
 
 }
- const api = new Api({
-     address: 'https://mesto.nomoreparties.co/v1/cohort-26',
-     headers: {
-         authorization: 'b12ac09d-a522-46ec-9026-b6918737b3ea'
-     }
- });
+
+const api = new Api({
+    address: 'https://mesto.nomoreparties.co/v1/cohort-26',
+    headers: {
+        authorization: 'b12ac09d-a522-46ec-9026-b6918737b3ea'
+    }
+});
 
 export default api;
 

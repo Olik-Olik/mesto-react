@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import PopupWithForm from "./PopupWithForm";
+import api from "../utils/Api";
 
 function EditProfilePopup(props) {
     //стейты
-    const [handleTitle, sethandleTitle] = useState('');
-    const [handleJob, sethandleJob] = useState('');
+    const [profileTitle, setProfileTitle] = useState('');
+    const [profileJob, setProfileJob] = useState('');
 
     function handleClose(evt) {
         if (evt.target.classList.contains('popup'))
@@ -13,21 +14,13 @@ function EditProfilePopup(props) {
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        props.addProfile({
-             title: handleTitle('Жак-Ив Кусто'), //блин и как это место описать чтобы не undefined
-              name: handleJob('Исследователь океана')})
-
-        props.onClose()
+        api.setUserInfo({profileTitle}, {profileJob});
+        props.onClose();
     }
-
-/*
-        React.useEffect( {
-            title: sethandleTitle('Жак-Ив Кусто'),
-            name:  sethandleJob('Исследователь океана')}, [props.isOpen]) //проверить*/
 
     return (
         <PopupWithForm
-            onClose={props.onClose}
+            onClose={handleClose}
             name=""
             title="Редактировать профиль"
             isOpen={props.isOpen}
@@ -38,19 +31,21 @@ function EditProfilePopup(props) {
             <label className="popup__label">
 
                 <input className="popup__field"
-                       value={handleTitle ? handleTitle : 'Хороший человек'}
+                       value={profileTitle ? profileTitle : 'Хороший человек'}
+                       onChange={setProfileTitle}
                        id="popup-field-name"
                        maxLength="40" minLength="2"
                        name="inputForm_name"
                        placeholder="Ваше имя"
                        required
-                       type="text" />
+                       type="text"/>
                 <span className="popup__input-error" id="popup-field-name-error"/>
             </label>
 
             <label className="popup__label">
                 <input className="popup__field"
-                       value={handleJob ? handleJob : 'Погонятель пингвинов'}
+                       value={profileJob ? profileJob : 'Погонятель пингвинов'}
+                       onChange={setProfileJob}
                        id="popup-field-job"
                        maxLength="200"
                        minLength="2"

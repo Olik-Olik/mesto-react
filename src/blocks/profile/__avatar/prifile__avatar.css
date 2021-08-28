@@ -7,6 +7,7 @@
     justify-content: flex-start;
     position: absolute;
 }
+
 .profile__avatar:hover {
     opacity: 0.3;
     cursor: pointer;
@@ -14,9 +15,10 @@
 
 }
 
-.profile__foto-edit-button{
-/*  display: block;*/
+.profile__foto-edit-button {
+    /*  display: block;*/
 }
+
 /*
 @media screen and (max-width: 320px) {
     .profile__avatar {

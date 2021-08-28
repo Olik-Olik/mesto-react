@@ -15,7 +15,7 @@ function Card(props) {
                 <img alt={props.alt}
                      className="elements__image" /* {props.title}*/
                      onClick={handleCardClick}
-                     src={props.src} />
+                     src={props.src}/>
                 <div className="elements__combine">
                     {/* eslint-disable-next-line jsx-a11y/heading-has-content*/}
                     <h2 className="elements__word">{props.title}</h2>

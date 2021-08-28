@@ -1,94 +1,76 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 //import isAddPlacePopupOpen from './App';
 import PopupWithForm from "./PopupWithForm";
+import api from "../utils/Api";
 
-function AddPlacePopup(props){
-        //попробуем стейты
+function AddPlacePopup(props) {
+    //попробуем стейты
 
-        const [handleTitle, sethandleTitle] = useState(''); //name of img
-        const [handleUrlPlace,sethandleUrlPlace] = useState(''); //img
+    const [placeTitle, setplaceTitle] = useState(''); //name of img
+    const [placeUrl, setplaceUrl] = useState(''); //img
 
-   /*     function handleClose(evt) {
-                if (evt.target.classList.contains('popup'))
-                        props.onClose();
-        }*/
-        function handleSubmit(evt) {
-                evt.preventDefault();
-                props.addPlace(       {title:handleTitle, //блин и  это место описать чтобы не undefined
-                                       name:handleUrlPlace})
-        }
+    function handleClose(evt) {
+        if (evt.target.classList.contains('popup'))
+            props.onClose();
+    }
 
-//можем извлекать данные или любой императивный api .Хук запускается после каждой отрисовки.Дом будет обновлен к моменту запуска эффекта.
-/*
-        useEffect( {
-                  title: sethandleTitle(''),
-                  name:  sethandleUrlPlace('')}, [props.isOpen]) //проверить*/
+    function handleSubmit(evt) {
+        evt.preventDefault();
+        api.submitNewCard({
+            title: placeTitle,
+            name: placeUrl
+        })
+    }
+
 
 //теперь обработчик  места и ссылки
-        function handleChangeTitle(evt){
-                sethandleTitle(evt.target.value)}// c evt.target.value
-        function handleChangePlace(evt){
-                sethandleUrlPlace(evt.target.value)}
+    function handleChangeTitle(evt) {
+        setplaceTitle(evt.target.value)
+    }// c evt.target.value
+    function handleChangePlace(evt) {
+        setplaceUrl(evt.target.value)
+    }
 
-return(
-    <PopupWithForm
-        onClose = {props.onClose}
-        name = "popup-input-place popup-input-img "
-        title = "Редактировать место"
-        isOpen = {props.isOpen}
-        onSubmit = {handleSubmit}
-        buttonText = "Сохранить"
+    return (
+        <PopupWithForm
+            onClose={handleClose}
+            name="popup-input-place popup-input-img "
+            title="Редактировать место"
+            isOpen={props.isOpen}
+            onSubmit={handleSubmit}
+            buttonText="Сохранить"
         >
-  {/*      <section className=  {`popup popup_country popup_type_edit ${isAddPlacePopupOpen ? "popup_opened" : ""} `}>
-        <button className="popup__close-button"
-                aria-label='Закрыть всплывающее окошко'
-                onClick= {(evt) => handleClose(evt)}
-                type="button"/>
-        <div className="popup__container">*/}
-   {/*     <form  className="popup__form"
-               action="#"  name="resaveCountry"
-               aria-label='получения инфо и передачи данных в адресной строке'
-               id="popup-input-mega-id"
-               method="GET"
-               noValidate>*/}
+            <label className="popup__label">
+                <h2 className="popup__page">Редактировать</h2>
+                <input className="popup__field"
+                       type="text"
+                       name="popup-input-place"
+                       placeholder="Название"
+                       value={placeTitle ? placeTitle : ''}
+                       required
+                       maxLength="30" minLength="2"
+                       id="popup-field-card-name"
+                       onChange={handleChangeTitle}
+                />
+            </label>
 
-        <label className="popup__label">
-        <h2 className="popup__page">Редактировать</h2>
-        <input className="popup__field"
-               type = "text"
-               name = "popup-input-place"
-               placeholder="Название"
-               value={handleTitle ? handleTitle : ''}
-               required
-               maxLength="30" minLength="2"
-               id="popup-field-card-name"
-               onChange={handleChangeTitle}
-        />
-        </label>
+            <span className="popup__input-error"
+                  id="popup-field-card-name-error"/>
+            <label className="popup__label">
 
-        <span className="popup__input-error"
-              id="popup-field-card-name-error"/>
-        <label className="popup__label">
+                <input className="popup__field"
+                       type="url"
+                       id="popup-field-card-img"
+                       name="popup-input-img"
+                       placeholder="Ссылка на картинку"
+                       required
+                       value={placeUrl ? placeUrl : ''}
+                       onChange={handleChangePlace}/>
+                <span className="popup__input-error"
+                      id="popup-field-card-img-error"/>
+            </label>
+        </PopupWithForm>
+    );
+}
 
-        <input className="popup__field"
-               type="url"
-               id="popup-field-card-img"
-               name="popup-input-img"
-               placeholder="Ссылка на картинку"
-               required
-               value={handleUrlPlace ? handleUrlPlace : ''}
-               onChange={handleChangePlace}/>
-        <span className="popup__input-error"
-              id="popup-field-card-img-error"/>
-        </label>
-       {/* <button className="popup__save"
-                aria-label='Кнопка Создать место'
-                onClick={(evt) => handleSubmit(evt)}
-                type="submit">Создать
-        </button>
-        </form>
-        </div>
-        </section>*/}
-            </PopupWithForm>
-);}
-    export default AddPlacePopup;
+export default AddPlacePopup;
