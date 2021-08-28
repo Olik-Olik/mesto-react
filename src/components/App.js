@@ -18,7 +18,7 @@ export default function App() {
     const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
     /*  const [isConfirmDeletePopup, setConfirmDeletePopup] = React.useState(false);*/
     const [cards, setCards] = React.useState([]);
-    const [currentUser, setCurrentUser] = React.useState('');
+    const [currentUser, setCurrentUser] = React.useState({});
     const [selectedCard, setSelectedCard] = React.useState({});
     const [isConfirmDeletePopup, setisConfirmDeletePopup] = React.useState(false);
     const [search, setSearch] = React.useState('');
@@ -34,6 +34,14 @@ export default function App() {
     function fetchInitData(){
         Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
             const initialCards = values[1];
+            const userProfileInfo = values[0];
+            const userInfo = {
+                'name': userProfileInfo.name,
+                'about': userProfileInfo.about,
+                'avatar': userProfileInfo.avatar,
+                'id': userProfileInfo._id
+            }
+            setCurrentUser(userInfo);
             console.log('Got cards! : ' + initialCards.toString());
             setCards(initialCards);
         })
@@ -41,16 +49,20 @@ export default function App() {
                 console.log('MAMA!!!: ' + err.toString())
             });
     }
-
+//cards
     useEffect(fetchInitData, []);
 //принимает в себя дефолтное значение для переменной стейта и возвращает массив
 //первая-значение стейт переменной вторая-функция для обновления стейт переменной
 
-    /* useEffect(() => {
+//user
+
+
+   /*  useEffect(() => {
          api.getUserInfo().then((userInfo) => {
              setCurrentUser(userInfo)
          });
-     }, []);*/
+     }, []);
+*/
 
     /*useEffect(() => {
         api.search(search).then(res => {
@@ -120,6 +132,7 @@ export default function App() {
             <body className="root">
             <Header/>
             <Main
+                currentUser={currentUser}
                 cards={cards}
                 setisEditAvatarPopupOpen={(evt) => {
                     console.log("I'm a superstar avatar!!!")

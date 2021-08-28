@@ -13,7 +13,7 @@ function Main(props) {
     const [userName, setuserName] = useState({});
     const [userDescription, setuserDescription] = useState({});
     const [userAvatar, setuserAvatar] = useState({});
-    const currentUserContext = React.useContext(CurrentUserContext);
+   /* const currentUserContext = React.useContext(CurrentUserContext);*/
     /*"https://bipbap.ru/wp-content/uploads/2018/04/another-costa-rica-night-sky-includes-volcano-s1920x1278-410769-1020.jpg"*/
 
 
@@ -47,7 +47,7 @@ function Main(props) {
                 <div className="profile__person-info">
                     <div className="profile__person-infobox">
                         <img alt="Аватар того, кто его вносит" className="profile__avatar"
-                             src={`${currentUserContext.avatar}`}
+                             src={props.currentUser.avatar}
                              style={{backgroundImage: `url(${"https://bipbap.ru/wp-content/uploads/2018/04/another-costa-rica-night-sky-includes-volcano-s1920x1278-410769-1020.jpg"})`}}
                             /*style={{ backgroundImage: `url(${userAvatar})` }}*/
                         />
@@ -58,13 +58,12 @@ function Main(props) {
                     </div>
                     <div className="profile__info">
                         <div className="profile__title-edit-button">
-                            <h1 className="profile__title">{`БЕЛОСНЕЖКА`}</h1>
-                            {/*       <h1 className="profile__title">{`${currentUserContext.name}`}</h1>*/}
+                                   <h1 className="profile__title">{props.currentUser.name}</h1>
                             <button className="profile__edit-button" type="button"
                                     onClick={handleEditProfileOpen}
                             />
                         </div>
-                        <p className="profile__subtitle">{`${currentUserContext.about}`} </p>
+                        <p className="profile__subtitle">{props.currentUser.about} </p>
                     </div>
                 </div>
                 <div className="profile__button-container">
