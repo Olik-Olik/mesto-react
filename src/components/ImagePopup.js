@@ -16,7 +16,7 @@ function ImagePopup(props){
                <div className =  "popup__container-image" >
                <img className="popup__image"
                     alt="Большая картинка"
-                    src="{props.card.src}"
+                    src={props.src}
                      />
                <h2 className="popup__image-word" />
               </div>

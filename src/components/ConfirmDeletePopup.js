@@ -16,6 +16,25 @@ function ConfirmDeletePopup(props) {
         props.onClose();
     }
     return (
+        <PopupWithForm
+            onClose = {props.onClose}
+            name = "input-avatar popup_type_edit-avatar"
+            title = "Редактировать аватар"
+            isOpen = {props.isOpen}
+            onSubmit = {handleSubmit} // не описано еще и хз надо ли
+            buttonText = "Сохранить">
+            <label className="popup__label">
+                <h2 className="popup__page"
+                    onClick={props.onClose}>Вы уверены?</h2>
+            </label>
+        </PopupWithForm>
+    )
+}
+export default ConfirmDeletePopup;
+
+
+
+
       /*  <section  className={`popup popup_delete-confirm  popup_type_edit ${isConfirmDeletePopup ? "popup_opened" : ""} `}>
                    <button className="popup__close-button"
                            aria-label='Закрыть всплывающее окошко'
@@ -28,11 +47,13 @@ function ConfirmDeletePopup(props) {
                        id="popup-delete-card"
                        name="deleteConfirmCard"
                        noValidate>*/
-                    <label className="popup__label">
+                   /* <label className="popup__label">
                         <h2 className="popup__page"
-                            onClick={props.onClose} //не факт, что можно повесить,проверить
+                            onClick={props.onClose} // повесить на что бы? секция ,проверить
                         >Вы уверены?</h2>
-                    </label>
+                    </label>*/
+
+
                /*    <button className="popup__save"
                             aria-label='Кнопка уверенности в закрытии'
                             onClick={(evt) => handleSubmit(evt)} //это функция , а не пропс
@@ -44,6 +65,3 @@ function ConfirmDeletePopup(props) {
       /*              </form>
                     </div>
         </section>*/
-    )
-}
-export default ConfirmDeletePopup;

@@ -1,37 +1,35 @@
 import React, {useEffect, useState} from "react";
-import isAddPlacePopupOpen from './App';
+//import isAddPlacePopupOpen from './App';
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props){
         //попробуем стейты
 
-        const [handleTitle, sethandleTitle] = useState('');
-        const [handleUrlPlace,sethandleUrlPlace] = useState('');
+        const [handleTitle, sethandleTitle] = useState(''); //name of img
+        const [handleUrlPlace,sethandleUrlPlace] = useState(''); //img
 
-        //общий для всех -ВЫНЕСТИ В ПОПАП С ФОРМАМИ
-        function handleClose(evt) {
+   /*     function handleClose(evt) {
                 if (evt.target.classList.contains('popup'))
                         props.onClose();
-        }
-        //самбит карточки
+        }*/
         function handleSubmit(evt) {
                 evt.preventDefault();
                 props.addPlace(       {title:handleTitle, //блин и  это место описать чтобы не undefined
                                        name:handleUrlPlace})
         }
-        //теперь обработчик  места и ссылки
-        function handleChangeTitle(evt){
-                sethandleTitle(evt.target.value)}// c вебинара  evt.target.value
-        function handleChangePlace(evt){
-                sethandleUrlPlace(evt.target.value)}
 
 //можем извлекать данные или любой императивный api .Хук запускается после каждой отрисовки.Дом будет обновлен к моменту запуска эффекта.
 /*
         useEffect( {
                   title: sethandleTitle(''),
-                  name:  sethandleUrlPlace('')}/!*, [isOpen]*!/) //проверить
+                  name:  sethandleUrlPlace('')}, [props.isOpen]) //проверить*/
 
-*/
+//теперь обработчик  места и ссылки
+        function handleChangeTitle(evt){
+                sethandleTitle(evt.target.value)}// c evt.target.value
+        function handleChangePlace(evt){
+                sethandleUrlPlace(evt.target.value)}
+
 return(
     <PopupWithForm
         onClose = {props.onClose}

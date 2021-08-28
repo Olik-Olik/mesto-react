@@ -3,11 +3,13 @@ import '../index.css';
 import Header from "./Header";
 import Main from './Main';
 import Footer from './Footer';
-import ImagePopup from "./ImagePopup";
 import AddPlacePopup from "./AddPlacePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
+import Card from "./Card";
+import api from "../utils/Api"
+//import {useState, useEffect} from "react";
 
 export default function App() {
 
@@ -19,17 +21,47 @@ export default function App() {
     const [currentUser, setCurrentUser] = React.useState('');
     const [selectedCard, setSelectedCard] = React.useState({});
     const [isConfirmDeletePopup, setisConfirmDeletePopup] = React.useState(false);
+    const [search, setSearch] = React.useState('');
 
-    /*Импортируйте модуль api и добавьте эффект, вызываемый при монтировании компонента,
-     который будет совершать запрос в API за пользовательскими данными.
-     После получения ответа задавайте полученные данные в соответствующие переменные состояния.*/
-    /*
-        useEffect(() => {
-            api.getUserInfo().then((userInfo) => {
-                setCurrentUser(userInfo)
-            });
-        }, []);
-    */
+    function getCardsPromise() {
+        return api.getInitialCards();
+    }
+
+    function getUserInfoPromise() {
+        return api.getUserInfo();
+    }
+
+    Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
+        const initialCards = values[1];
+        setCards(initialCards);
+    })
+        .catch((err) => {
+            console.log('MAMA!!!: ' + err.toString())
+        });
+
+
+//принимает в себя дефолтное значение для переменной стейта и возвращает массив
+//первая-значение стейт переменной вторая-функция для обновления стейт переменной
+
+    /* useEffect(() => {
+         api.getUserInfo().then((userInfo) => {
+             setCurrentUser(userInfo)
+         });
+     }, []);*/
+
+    /*useEffect(() => {
+        api.search(search).then(res => {
+            {
+                console.log(res);
+            }
+        }, [])
+        return (
+            <div className="App">
+                <Card> </Card>
+
+            </div>);
+    })*/
+
 
     function handleEditAvatarClick(evt) {
         console.log("I'm a walrus!!!")
@@ -51,24 +83,26 @@ export default function App() {
         setSelectedCard(card);
     }
 
-     function handleConfirmDeletePopup(evt){
-         console.log("I'm a walrus handleConfirmDeletePopup!!!")
-         setisConfirmDeletePopup(true);}
+    function handleConfirmDeletePopup(evt) {
+        console.log("I'm a walrus handleConfirmDeletePopup!!!")
+        setisConfirmDeletePopup(true);
+    }
 
     function closeAllPopups() {
         console.log("I was so close...")
         setisEditAvatarPopupOpen(false);
         setisEditProfilePopupOpen(false);
         setisAddPlacePopupOpen(false);
-       /* setisImagePopupOpen(false);*/
+        /* setisImagePopupOpen(false);*/
         setisConfirmDeletePopup(false);
     }
 
-/*    //пока удаление не нужно
-    function handleDeleteConfirm(){
-        setisConfirmDeletePopup(true)
-        closeAllPopups()
-    }*/
+
+    /*    //пока удаление не нужно
+        function handleDeleteConfirm(){
+            setisConfirmDeletePopup(true)
+            closeAllPopups()
+        }*/
 
     /*
         React.useEffect(() => {
@@ -77,6 +111,7 @@ export default function App() {
             });
         }, []);
     */
+
     return (
         <>
             <body className="root">
@@ -85,7 +120,7 @@ export default function App() {
                 setisEditAvatarPopupOpen={(evt) => {
                     console.log("I'm a superstar avatar!!!")
                     handleEditAvatarClick(evt)
-                  /*  isEditAvatarPopupOpen = {isEditAvatarPopupOpen}*/
+                    /*  isEditAvatarPopupOpen = {isEditAvatarPopupOpen}*/
                 }}
                 setisEditProfilePopupOpen={(evt) => {
                     console.log("I'm a superstar too!!!")
@@ -95,31 +130,35 @@ export default function App() {
                     console.log("I'm a superstar too too!!!")
                     handleAddPlaceClick(evt)
                 }}
-                /*   cards={cards}}*/
+                cards={cards}
 
-                 setisConfirmDeletePopup={(evt) =>
-                 handleConfirmDeletePopup(evt)
-                 }
+                setisConfirmDeletePopup={(evt) =>
+                    handleConfirmDeletePopup(evt)
+                }
 
+                /*function handleSubmitProfileClick{(evt) =>
+                evt.preventDefault()
+                props.addProfile({title:handleName,
+                                  name:handleJob})
+            }*/
             />
-        <EditAvatarPopup
+            <EditAvatarPopup
                 isOpen={isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
-       /*         onSubmit={handleSubmitAvatar}*/
+                /*         onSubmit={handleSubmitAvatar}*/
                 buttonText="Cохранить"/>
 
             <EditProfilePopup
                 isOpen={isEditProfilePopupOpen}
                 onClose={closeAllPopups}
                 buttonText="Сохранить"
-/*              isSubmit ={handleSubmitProfileClick}
-  addProfile =*/
+                /*    isSubmit ={handleSubmitProfileClick}*/
+                /*     addProfile =*/
             />
-          <AddPlacePopup
+            <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}
-                buttonText="Добавить"  />
-
+                buttonText="Добавить"/>
 
             {/*<PopupWithForm
                 isOpen={false}
@@ -127,23 +166,21 @@ export default function App() {
                 buttonText="Да"/>*/}
 
             <ConfirmDeletePopup
-             isOpen={isConfirmDeletePopup}
-             onClose={closeAllPopups}
-             buttonText="Да" />
+                isOpen={isConfirmDeletePopup}
+                onClose={closeAllPopups}
+                buttonText="Да"/>
             { /*  isRemove={handleRemoveClick}
              isSubmit={handleSubmitConfirmClick}*/}
 
-
-
-       {/*     <ImagePopup
+            {/*     <ImagePopup
             isOpen={isImagePopupOpen}
                 card={selectedCard}
                 onClose={closeAllPopups}
-                />
-*/}
+                />*/}
+
+            <Card description> </Card>
             <Footer/>
             </body>
-
         </>
 
     );
