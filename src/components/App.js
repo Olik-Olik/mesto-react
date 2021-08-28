@@ -154,7 +154,7 @@ export default function App() {
                 isOpen={isConfirmDeletePopup}
                 onClose={closeAllPopups}
                 buttonText="Да"/>
-            { /*  isRemove={handleRemoveClick}
+            {/*  isRemove={handleRemoveClick}
              isSubmit={handleSubmitConfirmClick}*/}
 
             <ImagePopup
