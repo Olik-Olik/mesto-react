@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import '../index.css';
 import Header from "./Header";
 import Main from './Main';
@@ -31,15 +31,18 @@ export default function App() {
         return api.getUserInfo();
     }
 
-    Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
-        const initialCards = values[1];
-        setCards(initialCards);
-    })
-        .catch((err) => {
-            console.log('MAMA!!!: ' + err.toString())
-        });
+    function fetchInitData(){
+        Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
+            const initialCards = values[1];
+            console.log('Got cards! : ' + initialCards.toString());
+            setCards(initialCards);
+        })
+            .catch((err) => {
+                console.log('MAMA!!!: ' + err.toString())
+            });
+    }
 
-
+    useEffect(fetchInitData, []);
 //принимает в себя дефолтное значение для переменной стейта и возвращает массив
 //первая-значение стейт переменной вторая-функция для обновления стейт переменной
 
@@ -117,6 +120,7 @@ export default function App() {
             <body className="root">
             <Header/>
             <Main
+                cards={cards}
                 setisEditAvatarPopupOpen={(evt) => {
                     console.log("I'm a superstar avatar!!!")
                     handleEditAvatarClick(evt)
@@ -130,7 +134,6 @@ export default function App() {
                     console.log("I'm a superstar too too!!!")
                     handleAddPlaceClick(evt)
                 }}
-                cards={cards}
 
                 setisConfirmDeletePopup={(evt) =>
                     handleConfirmDeletePopup(evt)
@@ -177,8 +180,6 @@ export default function App() {
                 card={selectedCard}
                 onClose={closeAllPopups}
                 />*/}
-
-            <Card description> </Card>
             <Footer/>
             </body>
         </>

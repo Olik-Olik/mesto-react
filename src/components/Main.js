@@ -84,17 +84,19 @@ function Main(props) {
 в виде пропса onCardClick.*/}
             <section className="elements">
                 {props.cards &&
-                props.cards.map(card => (<Card card={card}
-                                               key={card._id}
-                                               onCardClick={props.onCardClick}
-                                               src={card.src}
-                                               title={card.title}
-                                               alt={card.alt}
-                                        />
-                    )
+                 props.cards.map(card => (
+                     console.log(card.name),
+                     <Card card={card}
+                           key={card._id}
+                           onCardClick={props.onCardClick}
+                           src={card.link}
+                           title={card.name}
+                           alt={card.name}
+                     />)
                 )
 
                 }
+
             </section>
         </main>
     );
