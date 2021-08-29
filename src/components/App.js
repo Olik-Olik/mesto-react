@@ -13,18 +13,17 @@ import api from "../utils/Api"
 
 export default function App() {
 
-    const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] = React.useState(false);
-    const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
-    const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
-    const [isImagePopupOpen, setisImagePopupOpen] = React.useState(false);
-    /*  const [isConfirmDeletePopup, setConfirmDeletePopup] = React.useState(false);*/
+    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+    const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+    /*  const [isConfirmDeletePopup, setIsConfirmDeletePopup] = React.useState(false);*/
     const [cards, setCards] = React.useState([]);
     const [currentUser, setCurrentUser] = React.useState({});
     const [selectedCard, setSelectedCard] = React.useState({});
-    const [isConfirmDeletePopup, setisConfirmDeletePopup] = React.useState(false);
-    const [search, setSearch] = React.useState('');
+    const [isConfirmDeletePopup, setIsConfirmDeletePopup] = React.useState(false);
 
-    function getCardsPromise() {
+    /*function getCardsPromise() {
         return api.getInitialCards();
     }
 
@@ -52,51 +51,50 @@ export default function App() {
     }
 
     useEffect(fetchInitData, []);
-
+*/
     function handleEditAvatarClick(evt) {
         console.log("I'm a walrus!!!")
-        setisEditAvatarPopupOpen(true);
+        setIsEditAvatarPopupOpen(true);
     }
 
     function handleEditProfileClick(evt) {
         console.log("I'm a walrus 2!!!")
-        setisEditProfilePopupOpen(true);
+        setIsEditProfilePopupOpen(true);
     }
 
     function handleAddPlaceClick(evt) {
         console.log("I'm a walrus 3!!!")
-        setisAddPlacePopupOpen(true);
+        setIsAddPlacePopupOpen(true);
     }
 
     function handleCardClick(card) {
         console.log("I'm a walrus 4!!!")
         setSelectedCard(card);
-        setisImagePopupOpen(true);
+        setIsImagePopupOpen(true);
     }
 
     function handleConfirmDeletePopup(evt) {
         console.log("I'm a walrus handleConfirmDeletePopup!!!")
-        setisConfirmDeletePopup(true);
+        setIsConfirmDeletePopup(true);
     }
 
     function closeAllPopups() {
         console.log("I was so close...")
-        setisEditAvatarPopupOpen(false);
-        setisEditProfilePopupOpen(false);
-        setisAddPlacePopupOpen(false);
-        setisImagePopupOpen(false);
-/*        setisConfirmDeletePopup(false);*/
+        setIsEditAvatarPopupOpen(false);
+        setIsEditProfilePopupOpen(false);
+        setIsAddPlacePopupOpen(false);
+        setIsImagePopupOpen(false);
+/*        setIsConfirmDeletePopup(false);*/
     }
 
     /*    //пока удаление не нужно
         function handleDeleteConfirm(){
-            setisConfirmDeletePopup(true)
+            setIsConfirmDeletePopup(true)
             closeAllPopups()
         }*/
 
     return (
         <>
-            <body className="root">
             <Header/>
             <Main
                 currentUser={currentUser}
@@ -154,7 +152,7 @@ export default function App() {
                 isOpen={isConfirmDeletePopup}
                 onClose={closeAllPopups}
                 buttonText="Да"/>
-            {/*  isRemove={handleRemoveClick}
+          {/*    isRemove={handleRemoveClick}
              isSubmit={handleSubmitConfirmClick}*/}
 
             <ImagePopup
@@ -163,7 +161,7 @@ export default function App() {
                 onClose={closeAllPopups}
                 />
             <Footer/>
-            </body>
+
         </>
 
     );

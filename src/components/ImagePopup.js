@@ -5,7 +5,7 @@ function ImagePopup(props) {
     return (
         <div className={`popup ${props.isOpen ? "popup_opened" : ""} popup_type_image`}>
             <div className="popup__combine-image">
-                <div style={{ alignment: `right`}}>
+
                     <div>
                         <button type="button"
                                 onClick={props.onClose}
@@ -21,7 +21,7 @@ function ImagePopup(props) {
                             <h2 className="popup__image-word">{props.card.name}</h2>
                         </div>
                     </div>
-                </div>
+
             </div>
         </div>
     );

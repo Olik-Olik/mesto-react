@@ -4,7 +4,6 @@ import PopupWithForm from "./PopupWithForm";
 
 function ConfirmDeletePopup(props) {
 
-
     function handleClose(evt) {
         if (evt.target.classList.contains('popup'))
             props.onClose();
@@ -19,15 +18,17 @@ function ConfirmDeletePopup(props) {
     return (
         <PopupWithForm
             onClose={props.onClose}
-            name="input-avatar popup_type_edit-avatar"
+            name="input-avatar popup_type_edit-avatar" ///испавить на confirm del
+            formName="form_confirm_delete"
             title="Редактировать аватар"
             isOpen={props.isOpen}
-            onSubmit={handleSubmit} // не описано еще и хз надо ли
+        /*    onSubmit={handleSubmit} //Не описано еще и хз надо ли. По ревью.Как понимаю вопрос был в сабмите , тут про лайки ни слова*/
             buttonText="Сохранить">
             <label className="popup__label">
                 <h2 className="popup__page"
                     onClick={props.onClose}>Вы уверены?</h2>
             </label>
+
         </PopupWithForm>
     )
 }

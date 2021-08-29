@@ -1,13 +1,13 @@
 import React from "react";
-
+import Api from '../utils/Api'
 function Card(props) {
     function handleCardClick(evt) {
         props.onCardClick(props.card);
     }
 
     return (
-        <div className="elements__card"
-             id="template-id">
+        <div className="elements__card">
+           {/*  id="template-id">*/}
             <div className="elements__trash-image">
                 <button aria-label='Удаление элемента'
                         className="elements__trash"
@@ -21,7 +21,7 @@ function Card(props) {
                     <h2 className="elements__word">{props.title}</h2>
                     <div className="elements__container-like">
                         <button aria-label='Лайк' className="elements__like-button elements__like" type="button"/>
-                        <p className="elements__like-count"/>
+                      {/*  <p className="elements__like-count">{props.card.likes.length}</p> */}
                     </div>
 
                 </div>

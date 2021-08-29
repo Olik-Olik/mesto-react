@@ -1,5 +1,8 @@
 import React, {useState} from "react";
-import Card from './Card'; // прописать Карточки!!!
+import Card from './Card';
+import api from "../utils/Api"; // прописать Карточки!!!
+//import  {useEffect} from "react";
+import '../index.css';
 
 //!*применять контексты для решения всех проблем связанных с передачей состояния*!/
 //!* попробую всунуть хук «useContext». Хук «useContext» используется для создания  данных,
@@ -7,13 +10,42 @@ import Card from './Card'; // прописать Карточки!!!
 //  до каждого уровня.
 //Определенный контекст будет доступен для всех дочерних компонентов без использования props*!/
 
-
 function Main(props) {
     const [userName, setuserName] = useState({});
     const [userDescription, setuserDescription] = useState({});
     const [userAvatar, setuserAvatar] = useState({});
     /* const currentUserContext = React.useContext(CurrentUserContext);*/
-    /*"https://bipbap.ru/wp-content/uploads/2018/04/another-costa-rica-night-sky-includes-volcano-s1920x1278-410769-1020.jpg"*/
+    const [cards, setCards] = React.useState([]);
+    const [currentUser, setCurrentUser] = React.useState({});
+
+    function getCardsPromise() {
+        return api.getInitialCards();
+    }
+
+    function getUserInfoPromise() {
+        return api.getUserInfo();
+    }
+
+    function fetchInitData() {
+        Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
+            const initialCards = values[1];
+            const userProfileInfo = values[0];
+            const userInfo = {
+                'name': userProfileInfo.name,
+                'about': userProfileInfo.about,
+                'avatar': userProfileInfo.avatar,
+                'id': userProfileInfo._id
+            }
+            setCurrentUser(userInfo);
+            console.log('Got cards!');
+            setCards(initialCards);
+        })
+            .catch((err) => {
+                console.log('MAMA!!!: ' + err.toString())
+            });
+    }
+
+    React.useEffect(fetchInitData, []);
 
 
     const handleEditAvatarOpen = (evt) => {
@@ -46,8 +78,10 @@ function Main(props) {
                 <div className="profile__person-info">
                     <div className="profile__person-infobox">
                         <img alt="Аватар того, кто его вносит" className="profile__avatar"
-                             src={props.currentUser.avatar}
-                             style={{ backgroundImage: `url(${userAvatar})` }}
+                             src={currentUser.avatar}
+                             //в ТЗ сказано установить именно так, хотя src лучше
+                  /*            style={{ backgroundImage: `url(${userAvatar})` }}*/
+
                         />
                         <div className="profile__avatar-edit-container">
                             <button className="profile__foto-edit-button" type="button"
@@ -56,12 +90,12 @@ function Main(props) {
                     </div>
                     <div className="profile__info">
                         <div className="profile__title-edit-button">
-                            <h1 className="profile__title">{props.currentUser.name}</h1>
+                            <h1 className="profile__title">{currentUser.name}</h1>
                             <button className="profile__edit-button" type="button"
                                     onClick={handleEditProfileOpen}
                             />
                         </div>
-                        <p className="profile__subtitle">{props.currentUser.about} </p>
+                        <p className="profile__subtitle">{currentUser.about} </p>
                     </div>
                 </div>
                 <div className="profile__button-container">
@@ -80,8 +114,8 @@ function Main(props) {
             {/*Для этого его нужно «пробросить» в компонент Card сквозь компонент Main —
 в виде пропса onCardClick.*/}
             <section className="elements">
-                {props.cards &&
-                props.cards.map(card => (
+                {cards &&
+                 cards.map(card => (
                     <Card card={card}
                           key={card._id}
                           onCardClick={props.onCardClick}

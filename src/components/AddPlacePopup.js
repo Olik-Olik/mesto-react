@@ -33,15 +33,16 @@ function AddPlacePopup(props) {
 
     return (
         <PopupWithForm
-            onClose={handleClose}
+            onClose={props.onClose}
             name="popup-input-place popup-input-img "
+            formName="form_add_place"
             title="Редактировать место"
             isOpen={props.isOpen}
             onSubmit={handleSubmit}
             buttonText="Сохранить"
         >
             <label className="popup__label">
-                <h2 className="popup__page">Редактировать</h2>
+
                 <input className="popup__field"
                        type="text"
                        name="popup-input-place"
