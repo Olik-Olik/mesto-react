@@ -96,8 +96,8 @@ export default function App() {
         <>
             <Header/>
             <Main
-                currentUser={currentUser}
-                cards={cards}
+              /*  currentUser={currentUser}
+                cards={cards}*/
                 onCardClick={handleCardClick}
                 setisEditAvatarPopupOpen={(evt) => {
                     console.log("I'm a superstar avatar!!!")
