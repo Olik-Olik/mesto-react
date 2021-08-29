@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import '../index.css';
 import Header from "./Header";
 import Main from './Main';
@@ -8,7 +8,6 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import ImagePopup from "./ImagePopup";
-import api from "../utils/Api"
 //import {useState, useEffect} from "react";
 
 export default function App() {
@@ -84,7 +83,7 @@ export default function App() {
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
         setIsImagePopupOpen(false);
-/*        setIsConfirmDeletePopup(false);*/
+        /*        setIsConfirmDeletePopup(false);*/
     }
 
     /*    //пока удаление не нужно
@@ -152,14 +151,14 @@ export default function App() {
                 isOpen={isConfirmDeletePopup}
                 onClose={closeAllPopups}
                 buttonText="Да"/>
-          {/*    isRemove={handleRemoveClick}
+            {/*    isRemove={handleRemoveClick}
              isSubmit={handleSubmitConfirmClick}*/}
 
             <ImagePopup
                 isOpen={isImagePopupOpen}
                 card={selectedCard}
                 onClose={closeAllPopups}
-                />
+            />
             <Footer/>
 
         </>

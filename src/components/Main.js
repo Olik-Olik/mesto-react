@@ -79,8 +79,8 @@ function Main(props) {
                     <div className="profile__person-infobox">
                         <img alt="Аватар того, кто его вносит" className="profile__avatar"
                              src={currentUser.avatar}
-                             //в ТЗ сказано установить именно так, хотя src лучше
-                  /*            style={{ backgroundImage: `url(${userAvatar})` }}*/
+                            //в ТЗ сказано установить именно так, хотя src лучше
+                            /*            style={{ backgroundImage: `url(${userAvatar})` }}*/
 
                         />
                         <div className="profile__avatar-edit-container">
@@ -115,7 +115,7 @@ function Main(props) {
 в виде пропса onCardClick.*/}
             <section className="elements">
                 {cards &&
-                 cards.map(card => (
+                cards.map(card => (
                     <Card card={card}
                           key={card._id}
                           onCardClick={props.onCardClick}

@@ -22,7 +22,7 @@ function ConfirmDeletePopup(props) {
             formName="form_confirm_delete"
             title="Редактировать аватар"
             isOpen={props.isOpen}
-        /*    onSubmit={handleSubmit} //Не описано еще и хз надо ли. По ревью.Как понимаю вопрос был в сабмите , тут про лайки ни слова*/
+            /*    onSubmit={handleSubmit} //Не описано еще и хз надо ли. По ревью.Как понимаю вопрос был в сабмите , тут про лайки ни слова*/
             buttonText="Сохранить">
             <label className="popup__label">
                 <h2 className="popup__page"

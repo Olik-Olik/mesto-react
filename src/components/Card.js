@@ -1,13 +1,14 @@
 import React from "react";
-import Api from '../utils/Api'
+
 function Card(props) {
+
     function handleCardClick(evt) {
         props.onCardClick(props.card);
     }
 
     return (
         <div className="elements__card">
-           {/*  id="template-id">*/}
+            {/*  id="template-id">*/}
             <div className="elements__trash-image">
                 <button aria-label='Удаление элемента'
                         className="elements__trash"

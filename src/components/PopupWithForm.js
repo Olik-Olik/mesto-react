@@ -12,20 +12,20 @@ function PopupWithForm(props) {
                       name={props.formName} //у каждой формы должен быть уникальным
                       className="popup__form"
                       aria-label='получения инфо и передачи данных в адресной строке'
-                      /*id="popup-input-mega-id"
-                      method="GET"*/
+                    /*id="popup-input-mega-id"
+                    method="GET"*/
                     /*  noValidate */
                       onSubmit={props.onSubmit}>
 
-               {/*    эта верстка с ошибкой не должна быть в PopupWithForm */}
-                {/*    <label className="popup__label">
+                    {/*    эта верстка с ошибкой не должна быть в PopupWithForm */}
+                    {/*    <label className="popup__label">
                         <span className="popup__input-error" id="popup-field-card-name-error"/>
                     </label>*/}
                     <h2 className="popup__page">{props.title}</h2>
                     {props.children}
                     <button aria-label='Кнопка самбита'
                             className="popup__save"
-                           /* className="popup__save {`${(not props.buttonSubmitState) ? '' : ''}`}"*/
+                        /* className="popup__save {`${(not props.buttonSubmitState) ? '' : ''}`}"*/
                             type="submit">{props.buttonText}</button>
 
                 </form>
