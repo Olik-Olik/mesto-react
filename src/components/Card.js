@@ -21,7 +21,7 @@ function Card(props) {
                     <h2 className="elements__word">{props.title}</h2>
                     <div className="elements__container-like">
                         <button aria-label='Лайк' className="elements__like-button elements__like" type="button"/>
-                      {/*  <p className="elements__like-count">{props.card.likes.length}</p> */}
+                        <p className="elements__like-count">{props.card.likes.length}</p>
                     </div>
 
                 </div>
