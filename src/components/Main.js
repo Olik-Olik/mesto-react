@@ -1,8 +1,11 @@
 import React, {useState} from "react";
 import Card from './Card';
-import api from "../utils/Api"; // прописать Карточки!!!
+import api from "../utils/Api";
 //import  {useEffect} from "react";
 import '../index.css';
+
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
+
 
 //!*применять контексты для решения всех проблем связанных с передачей состояния*!/
 //!* попробую всунуть хук «useContext». Хук «useContext» используется для создания  данных,
@@ -10,19 +13,23 @@ import '../index.css';
 //  до каждого уровня.
 //Определенный контекст будет доступен для всех дочерних компонентов без использования props*!/
 
-function Main(props) {
-    const [userName, setuserName] = useState({});
-    const [userDescription, setuserDescription] = useState({});
-    const [userAvatar, setuserAvatar] = useState({});
-    /* const currentUserContext = React.useContext(CurrentUserContext);*/
-    const [cards, setCards] = React.useState([]);
-    const [currentUser, setCurrentUser] = React.useState({});
 
-    function getCardsPromise() {
+function Main(props) {
+//Имеем функц.компонент и подписываем его на контекст
+ const currentUser1 = React.useContext(CurrentUserContext);
+
+  /*  const [userName, setuserName] = useState({});
+    const [userDescription, setuserDescription] = useState({});
+    const [userAvatar, setuserAvatar] = useState({});*/
+
+    const [cards, setCards] = React.useState([]);
+   const [currentUser, setCurrentUser] = React.useState({});
+
+  function getCardsPromise() {
         return api.getInitialCards();
     }
 
-    function getUserInfoPromise() {
+      function getUserInfoPromise() {
         return api.getUserInfo();
     }
 
@@ -36,7 +43,9 @@ function Main(props) {
                 'avatar': userProfileInfo.avatar,
                 'id': userProfileInfo._id
             }
-            setCurrentUser(userInfo);
+      //меняю .user ---- карточки не вываливаются, что логично
+          setCurrentUser(userInfo);
+           currentUser1(userInfo);
             console.log('Got cards!');
             setCards(initialCards);
         })
@@ -73,6 +82,7 @@ function Main(props) {
     }
 
     return (
+        <CurrentUserContext.Provider value={currentUser}>
         <main className="container">
             <section className="profile">
                 <div className="profile__person-info">
@@ -118,17 +128,20 @@ function Main(props) {
                 cards.map(card => (
                     <Card card={card}
                           key={card._id}
-                          onCardClick={props.onCardClick}
                           src={card.link}
                           title={card.name}
                           alt={card.name}
+
+                          onCardClick={props.onCardClick}
+                          onCardDelete={props.onCardDelete}
+                          onCardLike={props.onCardLike}
+
                     />)
                 )
-
                 }
-
             </section>
         </main>
+        </CurrentUserContext.Provider>
     );
 }
 

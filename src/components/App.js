@@ -1,28 +1,35 @@
-import React from "react";
+import React, {useEffect} from "react";
 import '../index.css';
 import Header from "./Header";
 import Main from './Main';
 import Footer from './Footer';
+import ImagePopup from "./ImagePopup";
 import AddPlacePopup from "./AddPlacePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
-import ImagePopup from "./ImagePopup";
+import Card from "./Card";
+//import ImagePopup from "./ImagePopup";
 //import {useState, useEffect} from "react";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import api from "../utils/Api";
 
 export default function App() {
 
+    const currentUser1 = React.useContext(CurrentUserContext);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
     const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
     /*  const [isConfirmDeletePopup, setIsConfirmDeletePopup] = React.useState(false);*/
     const [cards, setCards] = React.useState([]);
+
     const [currentUser, setCurrentUser] = React.useState({});
+
     const [selectedCard, setSelectedCard] = React.useState({});
     const [isConfirmDeletePopup, setIsConfirmDeletePopup] = React.useState(false);
 
-    /*function getCardsPromise() {
+    function getCardsPromise() {
         return api.getInitialCards();
     }
 
@@ -48,9 +55,10 @@ export default function App() {
                 console.log('MAMA!!!: ' + err.toString())
             });
     }
-
     useEffect(fetchInitData, []);
-*/
+
+
+
     function handleEditAvatarClick(evt) {
         console.log("I'm a walrus!!!")
         setIsEditAvatarPopupOpen(true);
@@ -93,6 +101,7 @@ export default function App() {
         }*/
 
     return (
+        <CurrentUserContext.Provider value={currentUser}>
         <>
             <Header/>
             <Main
@@ -162,6 +171,6 @@ export default function App() {
             <Footer/>
 
         </>
-
+        </CurrentUserContext.Provider>
     );
 }
