@@ -3,10 +3,10 @@ import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function Card(props) {
     const currentUser = React.useContext(CurrentUserContext);
-// Определяем, являемся ли мы владельцем текущей карточки
+// Определяем, является ли текущий юзер владельцем  карточки
   const isOwn = props.card.owner._id === currentUser._id;
 
-    function handleCardClick(evt) {
+   function handleCardClick(evt) {
     props.onCardClick(props.card);}
 
    function handleCardDelete(evt)
@@ -18,7 +18,8 @@ function Card(props) {
 // Создаём переменную, которую после зададим в `className` для кнопки удаления
     const cardDeleteButtonClassName = (
         /*`card__delete-button ${props.isOwn ? 'card__delete-button_visible' : 'card__delete-button_hidden'}`*/
-        `elements__trash + { ${isOwn ? ''}
+// Если собственник = текущему id юзера, то мусорка активна : иначе - фиг вам, а не мусорка.
+        `elements__trash-image  ${isOwn === currentUser._id ? 'elements__trash.visible' : 'elements__trash.hidden'}`
     );
 
 // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
@@ -26,15 +27,14 @@ function Card(props) {
 
 
 // Создаём переменную, которую после зададим в `className` для кнопки лайка
+// Если лайкнуто текущим юзером, то больше он не может лайкать.
     const cardLikeButtonClassName = (
-        "elements__like-button elements__like"
-
-    )
+        `elements__like ${isLiked === currentUser._id ? 'elements__container-like': ' '}`
+    );
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
         <div className="elements__card">
-            {/*  id="template-id">*/}
             <div className="elements__trash-image">
                 <button aria-label='Удаление элемента'
                        // className="elements__trash"
@@ -51,7 +51,7 @@ function Card(props) {
                     <h2 className="elements__word">{props.title}</h2>
                     <div className="elements__container-like">
                         <button
-                            //className="elements__like-button elements__like"
+                            //className="elements__like"
                             className={cardLikeButtonClassName}
                                 aria-label='Лайк'
                                 type="button"
@@ -59,13 +59,10 @@ function Card(props) {
                         />
                         <p className="elements__like-count">{props.card.likes.length}</p>
                     </div>
-
                 </div>
             </div>
         </div>
         </CurrentUserContext.Provider>
-
     )
 }
-
 export default Card;

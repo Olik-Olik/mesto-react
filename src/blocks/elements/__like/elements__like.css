@@ -1,4 +1,5 @@
-.elements__like-button {
+/*.elements__like-button {*/
+.elements__like{
     background-image: url('/src/images/Vector_heart.svg');
     /*background-image :url(https://code.s3.yandex.net/web-code/dom/heart.svg);*//*стащила из тренажера*/
     width: 22px;
