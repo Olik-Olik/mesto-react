@@ -1,60 +1,59 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import Card from './Card';
 import api from "../utils/Api";
-//import  {useEffect} from "react";
 import '../index.css';
-
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
-
-
-//!*применять контексты для решения всех проблем связанных с передачей состояния*!/
-//!* попробую всунуть хук «useContext». Хук «useContext» используется для создания  данных,
-// к которым можно обращаться по всей иерархии компонентов и ко всем пропсам
-//  до каждого уровня.
-//Определенный контекст будет доступен для всех дочерних компонентов без использования props*!/
-
 
 function Main(props) {
 //Имеем функц.компонент и подписываем его на контекст
- const currentUser1 = React.useContext(CurrentUserContext);
+ const currentUser1 = useContext(CurrentUserContext);
+ const [cards, setCards] = useState([]);
 
-  /*  const [userName, setuserName] = useState({});
-    const [userDescription, setuserDescription] = useState({});
-    const [userAvatar, setuserAvatar] = useState({});*/
+    function getCardsPromise() {
+           return api.getInitialCards();
+       }
 
-    const [cards, setCards] = React.useState([]);
-   const [currentUser, setCurrentUser] = React.useState({});
+      function fetchInitData() {
+          Promise.all([ getCardsPromise()]).then((values) => {
+              const initialCards = values[0];
 
-  function getCardsPromise() {
-        return api.getInitialCards();
-    }
 
-      function getUserInfoPromise() {
-        return api.getUserInfo();
-    }
+              console.log('Got cards!');
+              setCards(initialCards);
+          })
+              .catch((err) => {
+                  console.log('MAMA!!!: ' + err.toString())
+              });
+      }
 
-    function fetchInitData() {
-        Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
-            const initialCards = values[1];
-            const userProfileInfo = values[0];
-            const userInfo = {
-                'name': userProfileInfo.name,
-                'about': userProfileInfo.about,
-                'avatar': userProfileInfo.avatar,
-                'id': userProfileInfo._id
-            }
-      //меняю .user ---- карточки не вываливаются, что логично
-          setCurrentUser(userInfo);
-           currentUser1(userInfo);
-            console.log('Got cards!');
-            setCards(initialCards);
-        })
-            .catch((err) => {
-                console.log('MAMA!!!: ' + err.toString())
-            });
-    }
+      React.useEffect(fetchInitData, []);
 
-    React.useEffect(fetchInitData, []);
+    /*     function getUserInfoPromise() {
+          return api.getUserInfo();
+      }
+
+      function fetchInitData() {
+          Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
+              const initialCards = values[1];
+              const userProfileInfo = values[0];
+              const userInfo = {
+                  'name': userProfileInfo.name,
+                  'about': userProfileInfo.about,
+                  'avatar': userProfileInfo.avatar,
+                  'id': userProfileInfo._id
+              }
+        //меняю .user ---- карточки не вываливаются, что логично
+            setCurrentUser(userInfo);
+             currentUser1(userInfo);// Юзер с контекстом.
+              console.log('Got cards!');
+              setCards(initialCards);
+          })
+              .catch((err) => {
+                  console.log('MAMA!!!: ' + err.toString())
+              });
+      }
+
+      React.useEffect(fetchInitData, []);*/
 
 
     const handleEditAvatarOpen = (evt) => {
@@ -82,13 +81,13 @@ function Main(props) {
     }
 
     return (
-        <CurrentUserContext.Provider value={currentUser}>
+        <CurrentUserContext.Provider value={currentUser1}>
         <main className="container">
             <section className="profile">
                 <div className="profile__person-info">
                     <div className="profile__person-infobox">
                         <img alt="Аватар того, кто его вносит" className="profile__avatar"
-                             src={currentUser.avatar}
+                             src={currentUser1.avatar}
                             //в ТЗ сказано установить именно так, хотя src лучше
                             /*            style={{ backgroundImage: `url(${userAvatar})` }}*/
 
@@ -100,12 +99,12 @@ function Main(props) {
                     </div>
                     <div className="profile__info">
                         <div className="profile__title-edit-button">
-                            <h1 className="profile__title">{currentUser.name}</h1>
+                            <h1 className="profile__title">{currentUser1.name}</h1>
                             <button className="profile__edit-button" type="button"
                                     onClick={handleEditProfileOpen}
                             />
                         </div>
-                        <p className="profile__subtitle">{currentUser.about} </p>
+                        <p className="profile__subtitle">{currentUser1.about} </p>
                     </div>
                 </div>
                 <div className="profile__button-container">
@@ -141,7 +140,7 @@ function Main(props) {
                 }
             </section>
         </main>
-        </CurrentUserContext.Provider>
+      </CurrentUserContext.Provider>
     );
 }
 

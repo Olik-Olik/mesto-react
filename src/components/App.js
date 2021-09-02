@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useContext, useState,} from "react";
 import '../index.css';
 import Header from "./Header";
 import Main from './Main';
@@ -10,57 +10,46 @@ import EditProfilePopup from "./EditProfilePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import Card from "./Card";
 //import ImagePopup from "./ImagePopup";
-//import {useState, useEffect} from "react";
+//import { useEffect} from "react";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
 
 export default function App() {
 
-    const currentUser1 = React.useContext(CurrentUserContext);
-    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-    const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
-    /*  const [isConfirmDeletePopup, setIsConfirmDeletePopup] = React.useState(false);*/
-    const [cards, setCards] = React.useState([]);
+    const currentUser1 = useContext(CurrentUserContext);
+    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+    const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+    const [isConfirmDeletePopup, setIsConfirmDeletePopup] = useState(false);
+    const [currentUser, setCurrentUser] = useState({});
+    const [selectedCard, setSelectedCard] = useState({});
 
-    const [currentUser, setCurrentUser] = React.useState({});
 
-    const [selectedCard, setSelectedCard] = React.useState({});
-    const [isConfirmDeletePopup, setIsConfirmDeletePopup] = React.useState(false);
 
-    function getCardsPromise() {
-        return api.getInitialCards();
-    }
-
-    function getUserInfoPromise() {
+    /*function getUserInfoPromise() {
         return api.getUserInfo();
     }
-
-    function fetchInitData() {
-        Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
-            const initialCards = values[1];
-            const userProfileInfo = values[0];
-            const userInfo = {
-                'name': userProfileInfo.name,
-                'about': userProfileInfo.about,
-                'avatar': userProfileInfo.avatar,
-                'id': userProfileInfo._id
-            }
-            setCurrentUser(userInfo);
-            console.log('Got cards!');
-            setCards(initialCards);
-        })
+*/
+   /*function fetchInitData() {
+        Promise.all(getUserInfoPromise())
             .catch((err) => {
                 console.log('MAMA!!!: ' + err.toString())
-            });
+            } )
+   }*/
+    //Для юзера
+    useEffect(() => {
+        api.getUserInfo().then(res => setCurrentUser(res))
+            .catch((err) => {
+                    console.log('MAMA, Аватарчик  получен!!!: ' + err.toString())
+                }
+            )
     }
-    useEffect(fetchInitData, []);
-
+    )
 
 
     function handleEditAvatarClick(evt) {
-        console.log("I'm a walrus!!!")
+        console.log("I'm a walrus!!! Обработчик авы")
         setIsEditAvatarPopupOpen(true);
     }
 
@@ -91,7 +80,7 @@ export default function App() {
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
         setIsImagePopupOpen(false);
-        /*        setIsConfirmDeletePopup(false);*/
+         setIsConfirmDeletePopup(false);
     }
 
     /*    //пока удаление не нужно
@@ -105,13 +94,10 @@ export default function App() {
         <>
             <Header/>
             <Main
-              /*  currentUser={currentUser}
-                cards={cards}*/
                 onCardClick={handleCardClick}
                 setisEditAvatarPopupOpen={(evt) => {
                     console.log("I'm a superstar avatar!!!")
                     handleEditAvatarClick(evt)
-                    /*  isEditAvatarPopupOpen = {isEditAvatarPopupOpen}*/
                 }}
 
                 setisEditProfilePopupOpen={(evt) => {
@@ -132,7 +118,7 @@ export default function App() {
                     handleCardClick(evt)
                 }
 
-                /*function handleSubmitProfileClick{(evt) =>
+          /*      function handleSubmitProfileClick{(evt) =>
                 evt.preventDefault()
                 props.addProfile({title:handleName,
                                   name:handleJob})
@@ -141,7 +127,7 @@ export default function App() {
             <EditAvatarPopup
                 isOpen={isEditAvatarPopupOpen}
                 onClose={closeAllPopups}
-                /*         onSubmit={handleSubmitAvatar}*/
+               /* onSubmit={handleSubmitAvatar}*/
                 buttonText="Cохранить"/>
 
             <EditProfilePopup
@@ -172,5 +158,6 @@ export default function App() {
 
         </>
         </CurrentUserContext.Provider>
+
     );
 }

@@ -18,8 +18,8 @@ function Card(props) {
 // Создаём переменную, которую после зададим в `className` для кнопки удаления
     const cardDeleteButtonClassName = (
         /*`card__delete-button ${props.isOwn ? 'card__delete-button_visible' : 'card__delete-button_hidden'}`*/
-// Если собственник = текущему id юзера, то мусорка активна : иначе - фиг вам, а не мусорка.
-        `elements__trash-image  ${isOwn === currentUser._id ? 'elements__trash.visible' : 'elements__trash.hidden'}`
+// Если собственник = текущему id юзера, то мусорка активна : иначе - фиг вам, не удалить.
+        `elements__trash${isOwn === currentUser._id ? 'elements__trash.visible' : 'elements__trash-image.hidden'}`
     );
 
 // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
