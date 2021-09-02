@@ -1,39 +1,44 @@
 import React from "react";
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
+import {useContext} from "react";
+
 
 function Card(props) {
-    const currentUser = React.useContext(CurrentUserContext);
-// Определяем, является ли текущий юзер владельцем  карточки
-  const isOwn = props.card.owner._id === currentUser._id;
+const currentUser1 = useContext(CurrentUserContext);
+// Определяем, является ли текущий юзер- я,  владельцем  карточки
+const isOwn = props.card.owner._id === currentUser1._id;
+
+
+// Определяем, есть ли у карточки лайк, поставленный текущим пользователем - мной
+    const isLiked = props.card.likes.some(i => i._id === currentUser1._id);
+
+
+// Создаём переменную, которую после зададим в `className` для кнопки удаления
+ const cardDeleteButtonClassName = (
+/*`card__delete-button ${props.isOwn ? 'card__delete-button_visible' : 'card__delete-button_hidden'}`*/
+// Если собственник = текущему id юзера, то мусорка активна : иначе - не удалить.
+        `elements__trash ${isOwn  ? 'card__delete-button' : ' '}` );
+
+
+
+// Создаём переменную, которую после зададим в `className` для кнопки лайка
+// Если лайкнуто текущим мной-чернеет лайк
+    const cardLikeButtonClassName = (
+        `elements__like ${isLiked  ? 'elements__like-black' : ' '}` );
 
    function handleCardClick(evt) {
     props.onCardClick(props.card);}
 
-   function handleCardDelete(evt)
+   function handleCardDelete()
    {props.onCardDelete(props.card);}
 
-    function handleCardLike(evt)
+//обработчик клика и вызываем  onCardLike
+    function handleCardLike()
     {props.onCardLike(props.card);}
 
-// Создаём переменную, которую после зададим в `className` для кнопки удаления
-    const cardDeleteButtonClassName = (
-        /*`card__delete-button ${props.isOwn ? 'card__delete-button_visible' : 'card__delete-button_hidden'}`*/
-// Если собственник = текущему id юзера, то мусорка активна : иначе - фиг вам, не удалить.
-        `elements__trash${isOwn === currentUser._id ? 'elements__trash.visible' : 'elements__trash-image.hidden'}`
-    );
-
-// Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-    const isLiked = props.card.likes.some(i => i._id === currentUser._id);
-
-
-// Создаём переменную, которую после зададим в `className` для кнопки лайка
-// Если лайкнуто текущим юзером, то больше он не может лайкать.
-    const cardLikeButtonClassName = (
-        `elements__like ${isLiked === currentUser._id ? 'elements__container-like': ' '}`
-    );
 
     return (
-        <CurrentUserContext.Provider value={currentUser}>
+        <CurrentUserContext.Provider value={currentUser1}>
         <div className="elements__card">
             <div className="elements__trash-image">
                 <button aria-label='Удаление элемента'
@@ -41,7 +46,6 @@ function Card(props) {
                         type="button"
                          onClick={handleCardDelete}
                          className={cardDeleteButtonClassName} />
-
                 <img alt={props.alt}
                      className="elements__image" /* {props.title}*/
                      onClick={handleCardClick}
@@ -51,12 +55,11 @@ function Card(props) {
                     <h2 className="elements__word">{props.title}</h2>
                     <div className="elements__container-like">
                         <button
-                            //className="elements__like"
+                           // className="elements__like"
                             className={cardLikeButtonClassName}
                                 aria-label='Лайк'
                                 type="button"
-                                onClick={handleCardLike}
-                        />
+                                onClick={handleCardLike}/>
                         <p className="elements__like-count">{props.card.likes.length}</p>
                     </div>
                 </div>

@@ -30,6 +30,11 @@ function EditAvatarPopup(props) {
         props.onClose()
     }
 
+    function handleSubmitAvatar(){
+
+    }
+
+
     return (
         <PopupWithForm
             onClose={props.onClose}
@@ -44,10 +49,7 @@ function EditAvatarPopup(props) {
             buttonText="Сохранить"
             button onClick = {(evt) => handleSubmit(evt)}
         >
-
-
-
-            <label className="popup__label">
+    <label className="popup__label">
                 <input className="popup__field popup__avatar-link"
                        id="popup-avatar-link"
                        name="input-avatar"

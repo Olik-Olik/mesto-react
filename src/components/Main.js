@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import Card from './Card';
 import api from "../utils/Api";
 import '../index.css';
@@ -12,12 +12,9 @@ function Main(props) {
     function getCardsPromise() {
            return api.getInitialCards();
        }
-
       function fetchInitData() {
           Promise.all([ getCardsPromise()]).then((values) => {
               const initialCards = values[0];
-
-
               console.log('Got cards!');
               setCards(initialCards);
           })
@@ -25,35 +22,11 @@ function Main(props) {
                   console.log('MAMA!!!: ' + err.toString())
               });
       }
+      useEffect(fetchInitData, []);
 
-      React.useEffect(fetchInitData, []);
+   // useEffect(() =>{api.getInitialCards();},[]);
 
-    /*     function getUserInfoPromise() {
-          return api.getUserInfo();
-      }
 
-      function fetchInitData() {
-          Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
-              const initialCards = values[1];
-              const userProfileInfo = values[0];
-              const userInfo = {
-                  'name': userProfileInfo.name,
-                  'about': userProfileInfo.about,
-                  'avatar': userProfileInfo.avatar,
-                  'id': userProfileInfo._id
-              }
-        //меняю .user ---- карточки не вываливаются, что логично
-            setCurrentUser(userInfo);
-             currentUser1(userInfo);// Юзер с контекстом.
-              console.log('Got cards!');
-              setCards(initialCards);
-          })
-              .catch((err) => {
-                  console.log('MAMA!!!: ' + err.toString())
-              });
-      }
-
-      React.useEffect(fetchInitData, []);*/
 
 
     const handleEditAvatarOpen = (evt) => {
@@ -143,6 +116,33 @@ function Main(props) {
       </CurrentUserContext.Provider>
     );
 }
-
-
 export default Main;
+
+
+
+/*     function getUserInfoPromise() {
+          return api.getUserInfo();
+      }
+
+      function fetchInitData() {
+          Promise.all([getUserInfoPromise(), getCardsPromise()]).then((values) => {
+              const initialCards = values[1];
+              const userProfileInfo = values[0];
+              const userInfo = {
+                  'name': userProfileInfo.name,
+                  'about': userProfileInfo.about,
+                  'avatar': userProfileInfo.avatar,
+                  'id': userProfileInfo._id
+              }
+        //меняю .user ---- карточки не вываливаются, что логично
+            setCurrentUser(userInfo);
+             currentUser1(userInfo);// Юзер с контекстом.
+              console.log('Got cards!');
+              setCards(initialCards);
+          })
+              .catch((err) => {
+                  console.log('MAMA!!!: ' + err.toString())
+              });
+      }
+
+      React.useEffect(fetchInitData, []);*/

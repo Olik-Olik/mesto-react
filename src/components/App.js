@@ -14,7 +14,7 @@ import Card from "./Card";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
 
-export default function App() {
+export default function App(props) {
 
     const currentUser1 = useContext(CurrentUserContext);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -24,28 +24,32 @@ export default function App() {
     const [isConfirmDeletePopup, setIsConfirmDeletePopup] = useState(false);
     const [currentUser, setCurrentUser] = useState({});
     const [selectedCard, setSelectedCard] = useState({});
-
-
+    /* const isOwn = props.card.owner._id === currentUser1._id;*/
 
     /*function getUserInfoPromise() {
         return api.getUserInfo();
     }
-*/
-   /*function fetchInitData() {
-        Promise.all(getUserInfoPromise())
-            .catch((err) => {
-                console.log('MAMA!!!: ' + err.toString())
-            } )
-   }*/
+*/ //Для юзера хочу только сделать.
+    /*function fetchInitData() {
+         Promise.all(getUserInfoPromise())
+             .catch((err) => {
+                 console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
+             } )
+    }*/
     //Для юзера
     useEffect(() => {
-        api.getUserInfo().then(res => setCurrentUser(res))
-            .catch((err) => {
-                    console.log('MAMA, Аватарчик  получен!!!: ' + err.toString())
-                }
-            )
-    }
-    )
+            api.getUserInfo()
+                .then(res => setCurrentUser(res))
+                .catch((err) => {
+                    console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
+                })
+        }
+        , [])
+
+
+    /*    function handleCardLike(card) {
+            // Снова проверяем, есть ли уже лайк на этой карточке
+            const isLiked = card.likes.some(i => i._id === currentUser1._id);*/
 
 
     function handleEditAvatarClick(evt) {
@@ -69,10 +73,24 @@ export default function App() {
         setIsImagePopupOpen(true);
     }
 
-    function handleConfirmDeletePopup(evt) {
+    function handleDeleteClick() {
+        console.log("Any interesting - delete");
+        const isOwn = props.card.owner._id === currentUser1._id;
+        api.getInitialCards()
+            .then(res => {
+            setSelectedCard(res)
+
+            if (isOwn) {
+                api.submitRemoveCard(props.card._id);
+            }
+        })
+    }
+
+
+   /* function handleConfirmDeletePopup(evt) {
         console.log("I'm a walrus handleConfirmDeletePopup!!!")
         setIsConfirmDeletePopup(true);
-    }
+    }*/
 
     function closeAllPopups() {
         console.log("I was so close...")
@@ -110,9 +128,9 @@ export default function App() {
                     handleAddPlaceClick(evt)
                 }}
 
-                setisConfirmDeletePopup={(evt) =>
+         /*       setisConfirmDeletePopup={(evt) =>
                     handleConfirmDeletePopup(evt)
-                }
+                }*/
 
                 setisImagePopup={(evt) =>
                     handleCardClick(evt)
