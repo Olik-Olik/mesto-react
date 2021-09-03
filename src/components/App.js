@@ -73,7 +73,7 @@ export default function App(props) {
         setIsImagePopupOpen(true);
     }
 
-    function handleDeleteClick() {
+    function handleDeleteClick(card) {
         console.log("Any interesting - delete");
         const isOwn = props.card.owner._id === currentUser1._id;
         api.getInitialCards()

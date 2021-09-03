@@ -9,11 +9,12 @@ function Main(props) {
  const currentUser1 = useContext(CurrentUserContext);
  const [cards, setCards] = useState([]);
 
-    function getCardsPromise() {
+ /*   function getCardsPromise() {
            return api.getInitialCards();
-       }
-      function fetchInitData() {
-          Promise.all([ getCardsPromise()]).then((values) => {
+       }*/
+     // function fetchInitData() {
+    useEffect(() =>{
+          Promise.all([ api.getInitialCards()]).then((values) => {
               const initialCards = values[0];
               console.log('Got cards!');
               setCards(initialCards);
@@ -21,13 +22,36 @@ function Main(props) {
               .catch((err) => {
                   console.log('MAMA!!!: ' + err.toString())
               });
-      }
-      useEffect(fetchInitData, []);
+      })
+    //  useEffect(fetchInitData, []);
+//вместе и юзеры и карточки
+    /*useEffect(() => {
+        Promise.all([api.getInitialCards(),  api.getUserInfo()])
+            .then(( [initialCards, userInfo]) => {
+                console.log('Got cards!');
+                setCurrentUser(userInfo);
+                setCards(initialCards);
 
-   // useEffect(() =>{api.getInitialCards();},[]);
+            })
+            .catch((err) => {
+                console.log('MAMA!!!: ' + err.toString());
+            }, []);
+    })*/
 
 
 
+
+
+    // useEffect(() =>{api.getInitialCards();},[]);
+    function handleCardLike(card) {
+        // Снова проверяем, есть ли уже лайк на этой карточке
+        const isLiked = card.likes.some(i => i._id === currentUser1._id);
+
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        });
+    }
 
     const handleEditAvatarOpen = (evt) => {
         console.log("I'm a superstar 1!!!")
