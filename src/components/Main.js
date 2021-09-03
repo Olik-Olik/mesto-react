@@ -5,43 +5,15 @@ import '../index.css';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function Main(props) {
-//Имеем функц.компонент и подписываем его на контекст
+
  const currentUser1 = useContext(CurrentUserContext);
  const [cards, setCards] = useState([]);
 
- /*   function getCardsPromise() {
-           return api.getInitialCards();
-       }*/
-     // function fetchInitData() {
-    useEffect(() =>{
-          Promise.all([ api.getInitialCards()]).then((values) => {
-              const initialCards = values[0];
-              console.log('Got cards!');
-              setCards(initialCards);
-          })
-              .catch((err) => {
-                  console.log('MAMA!!!: ' + err.toString())
-              });
-      })
-    //  useEffect(fetchInitData, []);
-//вместе и юзеры и карточки вместе. Но нам надо отдельно.
-    /*useEffect(() => {
-        Promise.all([api.getInitialCards(),  api.getUserInfo()])
-            .then(( [initialCards, userInfo]) => {
-                console.log('Got cards!');
-                setCurrentUser(userInfo);
-                setCards(initialCards);
-            })
-            .catch((err) => {
-                console.log('MAMA!!!: ' + err.toString());
-            }, []);
-    })*/
+
+    useEffect(()=> api.getInitialCards()
+        .then((res)=> {setCards(res)}), []);
 
 
-
-
-
-    // useEffect(() =>{api.getInitialCards();},[]);
     function handleCardLike(card) {
         // Снова проверяем, есть ли уже лайк на этой карточке
         const isLiked = card.likes.some(i => i._id === currentUser1._id);
@@ -76,6 +48,12 @@ function Main(props) {
         props.setisImagePopup(true)
     }
 
+   /* function handleUpdateAvatar(){
+        api.
+    }
+    */
+
+
     return (
         <CurrentUserContext.Provider value={currentUser1}>
         <main className="container">
@@ -84,9 +62,6 @@ function Main(props) {
                     <div className="profile__person-infobox">
                         <img alt="Аватар того, кто его вносит" className="profile__avatar"
                              src={currentUser1.avatar}
-                            //в ТЗ сказано установить именно так, хотя src лучше
-                            /*            style={{ backgroundImage: `url(${userAvatar})` }}*/
-
                         />
                         <div className="profile__avatar-edit-container">
                             <button className="profile__foto-edit-button" type="button"
@@ -107,17 +82,8 @@ function Main(props) {
                     <button className="profile__add-button" type="button"
                             onClick={handleAddPlaceOpen}/>
                 </div>
-                {/*<div className="popup__container-delete-confirm">
-                    <form action="#" aria-label='Вы уверены, что хотите удалить карточку?' className="popup__form"
-                          id="popup-delete-card" name="deleteConfirmCard" noValidate>
-                        <label className="popup__label"><h2 className="popup__page">Вы уверены?</h2></label>
-                        <button aria-label='Кнопка уверенности в закрытии' className="popup__save" type="submit">Да
-                        </button>
-                    </form>
-                </div>*/}
+
             </section>
-            {/*Для этого его нужно «пробросить» в компонент Card сквозь компонент Main —
-в виде пропса onCardClick.*/}
             <section className="elements">
                 {cards &&
                 cards.map(card => (
@@ -126,11 +92,9 @@ function Main(props) {
                           src={card.link}
                           title={card.name}
                           alt={card.name}
-
                           onCardClick={props.onCardClick}
                           onCardDelete={props.onCardDelete}
                           onCardLike={props.onCardLike}
-
                     />)
                 )
                 }

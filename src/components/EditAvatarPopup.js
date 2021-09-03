@@ -5,13 +5,8 @@ import api from "../utils/Api";
 
 function EditAvatarPopup(props) {
     const [avaUrl, setAvaUrl] = useState(' ');
-    const avaRef = useRef(); // записываем объект, возвращаемый хуком, в переменную
+    const avaRef = useRef();
     const  currentUser1 =useContext(CurrentUserContext);
-
-   // useEffect(() => avaRef.current.value = currentUser1;
-
-   // api.handleSubmitAvatar =(avatar).then(newAva)=>
-
 
   function handleClose(evt) {
         if (evt.target.classList.contains('popup'))
@@ -51,3 +46,7 @@ function EditAvatarPopup(props) {
 }
 
 export default EditAvatarPopup;
+
+// useEffect(() => avaRef.current.value = currentUser1;
+// api.handleSubmitAvatar =(avatar).then(newAva)=>
+

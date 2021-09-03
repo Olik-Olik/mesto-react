@@ -23,29 +23,79 @@ export default function App(props) {
     const [currentUser, setCurrentUser] = useState({});
     const [selectedCard, setSelectedCard] = useState({});
     /* const isOwn = props.card.owner._id === currentUser1._id;*/
-    const [userAva, setUserAva] = useState({});
+    const [userAvatar, setUserAvatar] = useState({});
 
 
+    useEffect(() => {
+        props.getCardsList()
+    }, [])
 
-    //Для юзера
-    useEffect(() => {api.getUserInfo()
-                .then(res => setCurrentUser(res))
-                .catch((err) => {console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString()) }) } , [])
 
+    function getCardsList() {
+        api.getInitialCards()
+            .then((res) => {
+                setSelectedCard(res)
+            })
+            .catch((err) => {
+                console.log('MAMA, КАРТОЧКИ не  получены!!!: ' + err.toString())
+
+            })}
+
+
+    //Для юзера ПУСТОЙ МАССИВ!!!
+    useEffect(() => {
+        api.getUserInfo()
+            .then(res => setCurrentUser(res))
+            .catch((err) => {
+                console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
+            })
+    }, [])
+///avatar
     function handleEditAvatarClick(evt) {
         console.log("I'm a walrus!!! Обработчик авы")
         setIsEditAvatarPopupOpen(true);
     }
+function handleEditAvatar() { /// подумать
+    const editAvatar = currentUser1.avatar.url
+    api.setUserAvatar()
+        .then(url => {setCurrentUser(currentUser);})
+    closeAllPopups()
+}
+    //дописать   .catch
 
+
+
+
+//profile
     function handleEditProfileClick(evt) {
         console.log("I'm a walrus 2!!!")
         setIsEditProfilePopupOpen(true);
     }
 
+    function handleEditProfile(item){
+     currentUser1.newDataUser.name = item.name
+     currentUser1.newDataUser.about = item.about
+     api.
+         .then((res)=>setCurrentUser(editProfile))
+
+
+
+    }
+
+
+///////place
     function handleAddPlaceClick(evt) {
         console.log("I'm a walrus 3!!!")
         setIsAddPlacePopupOpen(true);
     }
+    function handleAddPlace(){
+        api.addCard()
+            .then((res)=>{api.getInitialCards()
+                .then((res)=>setSelectedCard(res))})
+        closeAllPopups();
+    }
+    //.catch
+
 
     function handleCardClick(card) {
         console.log("I'm a walrus 4!!!")
@@ -58,18 +108,17 @@ export default function App(props) {
         const isOwn = props.card.owner._id === currentUser1._id;
         api.getInitialCards()
             .then(res => {
-            setSelectedCard(res)
-
-            if (isOwn) {
-                api.submitRemoveCard(props.card._id);
-            }
-        })
+                setSelectedCard(res)
+                if (isOwn) {
+                    api.submitRemoveCard(props.card._id);
+                }
+            })
     }
 
-   /* function handleConfirmDeletePopup(evt) {
-        console.log("I'm a walrus handleConfirmDeletePopup!!!")
-        setIsConfirmDeletePopup(true);
-    }*/
+    /* function handleConfirmDeletePopup(evt) {
+         console.log("I'm a walrus handleConfirmDeletePopup!!!")
+         setIsConfirmDeletePopup(true);
+     }*/
 
     function closeAllPopups() {
         console.log("I was so close...")
@@ -77,7 +126,7 @@ export default function App(props) {
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
         setIsImagePopupOpen(false);
-         setIsConfirmDeletePopup(false);
+        setIsConfirmDeletePopup(false);
     }
 
     /*    //пока удаление не нужно
@@ -85,11 +134,7 @@ export default function App(props) {
             setIsConfirmDeletePopup(true)
             closeAllPopups()
         }*/
-function handleUpdateAvatar(url){
-    const newAva = currentUser1
-    api.setUserAva(url).then(url => {setCurrentUser(currentUser);})
-        closeAllPopups()}
-         //дописать   .catch
+
 
 
 
