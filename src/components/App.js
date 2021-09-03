@@ -108,14 +108,12 @@ export default function App(props) {
         console.log("I'm a walrus 3!!!")
         setIsAddPlacePopupOpen(true);
     }
-    function handleAddPlace(){
-        api.addCard()
-            .then((res)=>{api.getInitialCards()
-                .then((res)=>setSelectedCard(res))})
-        closeAllPopups();
-    }
-    //.catch
 
+    function handleAddPlaceSubmit(newCard){
+        api.addCard(newCard)
+            .then((newCardAll)=>{setCards([newCardAll,...cards]);
+        closeAllPopups();
+    })}
 
     function handleCardClick(card) {
         console.log("I'm a walrus 4!!!")
@@ -156,16 +154,19 @@ export default function App(props) {
             closeAllPopups()
         }*/
 
-
-
-
-
     return (
         <CurrentUserContext.Provider value={currentUser}>
         <>
             <Header/>
             <Main
+                cards={cards}
                 onCardClick={handleCardClick}
+                onEditAvatar={props.onEditAvatar}
+                onEditProfile={props.onEditProfile}
+                onAddPlace={props.onAddPlace}
+                onCardDelete={props.onCardDelete}
+                onCardLike ={props.onCardLike}
+
                 setisEditAvatarPopupOpen={(evt) => {
                     console.log("I'm a superstar avatar!!!")
                     handleEditAvatarClick(evt)
@@ -189,11 +190,6 @@ export default function App(props) {
                     handleCardClick(evt)
                 }
 
-          /*      function handleSubmitProfileClick{(evt) =>
-                evt.preventDefault()
-                props.addProfile({title:handleName,
-                                  name:handleJob})
-            }*/
             />
             <EditAvatarPopup
                 isOpen={isEditAvatarPopupOpen}
@@ -218,9 +214,6 @@ export default function App(props) {
                 isOpen={isConfirmDeletePopup}
                 onClose={closeAllPopups}
                 buttonText="Да"/>
-            {/*    isRemove={handleRemoveClick}
-             isSubmit={handleSubmitConfirmClick}*/}
-
             <ImagePopup
                 isOpen={isImagePopupOpen}
                 card={selectedCard}
@@ -233,3 +226,13 @@ export default function App(props) {
 
     );
 }
+
+
+
+
+
+/*      function handleSubmitProfileClick{(evt) =>
+      evt.preventDefault()
+      props.addProfile({title:handleName,
+                        name:handleJob})
+  }*/
