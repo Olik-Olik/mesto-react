@@ -9,30 +9,22 @@ function Main(props) {
  const currentUser1 = useContext(CurrentUserContext);
  const [cards, setCards] = useState([]);
 
-
+//card
     useEffect(()=> api.getInitialCards()
         .then((res)=> {setCards(res)}), []);
 
 
-    function handleCardLike(card) {
-        // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser1._id);
-
-        // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-        });
-    }
-
+    //avatar
     const handleEditAvatarOpen = (evt) => {
         console.log("I'm a superstar 1!!!")
         props.setisEditAvatarPopupOpen(true)
     }
+    //profile
     const handleEditProfileOpen = (evt) => {
         console.log("I'm a superstar 2!!!")
         props.setisEditProfilePopupOpen(true)
     }
-
+//place
     const handleAddPlaceOpen = (evt) => {
         console.log("I'm a superstar 3!!!")
         props.setisAddPlacePopupOpen(true)
@@ -47,12 +39,6 @@ function Main(props) {
         console.log("handleImagePopupOpen")
         props.setisImagePopup(true)
     }
-
-   /* function handleUpdateAvatar(){
-        api.
-    }
-    */
-
 
     return (
         <CurrentUserContext.Provider value={currentUser1}>

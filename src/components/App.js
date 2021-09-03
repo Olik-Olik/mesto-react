@@ -24,14 +24,11 @@ export default function App(props) {
     const [selectedCard, setSelectedCard] = useState({});
     /* const isOwn = props.card.owner._id === currentUser1._id;*/
     const [userAvatar, setUserAvatar] = useState({});
+    const [cards, setCards] = useState([]);
 
 
-    useEffect(() => {
-        props.getCardsList()
-    }, [])
-
-
-    function getCardsList() {
+//card
+    function getCards() {
         api.getInitialCards()
             .then((res) => {
                 setSelectedCard(res)
@@ -39,10 +36,9 @@ export default function App(props) {
             .catch((err) => {
                 console.log('MAMA, КАРТОЧКИ не  получены!!!: ' + err.toString())
 
-            })}
-
-
-    //Для юзера ПУСТОЙ МАССИВ!!!
+            })
+    }
+//user
     useEffect(() => {
         api.getUserInfo()
             .then(res => setCurrentUser(res))
@@ -50,18 +46,42 @@ export default function App(props) {
                 console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
             })
     }, [])
+//like
+    function handleCardLike(card) {
+        // Снова проверяем, есть ли уже лайк на этой карточке
+        const isLiked = card.likes.some(i => i._id === currentUser1._id);
+
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+            setSelectedCard((state) => state.map((c) => c._id === card._id ? newCard : c));
+        });
+    }
+    //дописать   .catch
+    function handleCardLike(card) {
+        // Снова проверяем, есть ли уже лайк на этой карточке
+        const isLiked = card.likes.some(i => i._id === currentUser1._id);
+
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        });
+    }
+
+
+
 ///avatar
     function handleEditAvatarClick(evt) {
         console.log("I'm a walrus!!! Обработчик авы")
         setIsEditAvatarPopupOpen(true);
     }
-function handleEditAvatar() { /// подумать
-    const editAvatar = currentUser1.avatar.url
-    api.setUserAvatar()
-        .then(url => {setCurrentUser(currentUser);})
-    closeAllPopups()
-}
-    //дописать   .catch
+    function handleEditAvatar() { /// подумать
+        const editAvatar = currentUser1.avatar.url
+        api.setUserAvatar()
+            .then(url => {
+                setCurrentUser(currentUser);
+            })
+        closeAllPopups()
+    } //дописать   .catch
 
 
 
@@ -71,16 +91,16 @@ function handleEditAvatar() { /// подумать
         console.log("I'm a walrus 2!!!")
         setIsEditProfilePopupOpen(true);
     }
-
-    function handleEditProfile(item){
-     currentUser1.newDataUser.name = item.name
-     currentUser1.newDataUser.about = item.about
-     api.
-         .then((res)=>setCurrentUser(editProfile))
-
-
-
+    function handleEditProfile(item) {
+        const newDataUser = currentUser1.value
+        newDataUser.name = item.name
+        newDataUser.about = item.about
+        api.getUserInfo(newDataUser)
+       .then((res) => setCurrentUser(newDataUser))
+        closeAllPopups();
     }
+    //.catch
+
 
 
 ///////place
@@ -103,6 +123,7 @@ function handleEditAvatar() { /// подумать
         setIsImagePopupOpen(true);
     }
 
+    //delete card
     function handleDeleteClick(card) {
         console.log("Any interesting - delete");
         const isOwn = props.card.owner._id === currentUser1._id;

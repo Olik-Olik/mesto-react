@@ -47,6 +47,5 @@ function EditAvatarPopup(props) {
 
 export default EditAvatarPopup;
 
-// useEffect(() => avaRef.current.value = currentUser1;
-// api.handleSubmitAvatar =(avatar).then(newAva)=>
+
 
