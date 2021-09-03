@@ -8,11 +8,9 @@ import AddPlacePopup from "./AddPlacePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
-import Card from "./Card";
-//import ImagePopup from "./ImagePopup";
-//import { useEffect} from "react";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
+import * as url from "url";
 
 export default function App(props) {
 
@@ -25,32 +23,14 @@ export default function App(props) {
     const [currentUser, setCurrentUser] = useState({});
     const [selectedCard, setSelectedCard] = useState({});
     /* const isOwn = props.card.owner._id === currentUser1._id;*/
+    const [userAva, setUserAva] = useState({});
 
-    /*function getUserInfoPromise() {
-        return api.getUserInfo();
-    }
-*/ //Для юзера хочу только сделать.
-    /*function fetchInitData() {
-         Promise.all(getUserInfoPromise())
-             .catch((err) => {
-                 console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
-             } )
-    }*/
+
+
     //Для юзера
-    useEffect(() => {
-            api.getUserInfo()
+    useEffect(() => {api.getUserInfo()
                 .then(res => setCurrentUser(res))
-                .catch((err) => {
-                    console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
-                })
-        }
-        , [])
-
-
-    /*    function handleCardLike(card) {
-            // Снова проверяем, есть ли уже лайк на этой карточке
-            const isLiked = card.likes.some(i => i._id === currentUser1._id);*/
-
+                .catch((err) => {console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString()) }) } , [])
 
     function handleEditAvatarClick(evt) {
         console.log("I'm a walrus!!! Обработчик авы")
@@ -86,7 +66,6 @@ export default function App(props) {
         })
     }
 
-
    /* function handleConfirmDeletePopup(evt) {
         console.log("I'm a walrus handleConfirmDeletePopup!!!")
         setIsConfirmDeletePopup(true);
@@ -106,6 +85,14 @@ export default function App(props) {
             setIsConfirmDeletePopup(true)
             closeAllPopups()
         }*/
+function handleUpdateAvatar(url){
+    const newAva = currentUser1
+    api.setUserAva(url).then(url => {setCurrentUser(currentUser);})
+        closeAllPopups()}
+         //дописать   .catch
+
+
+
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -158,6 +145,7 @@ export default function App(props) {
             <AddPlacePopup
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}
+            //    onAddPlacePopup ={ } !!!! добавить
                 buttonText="Добавить"/>
 
             <ConfirmDeletePopup

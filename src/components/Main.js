@@ -24,14 +24,13 @@ function Main(props) {
               });
       })
     //  useEffect(fetchInitData, []);
-//вместе и юзеры и карточки
+//вместе и юзеры и карточки вместе. Но нам надо отдельно.
     /*useEffect(() => {
         Promise.all([api.getInitialCards(),  api.getUserInfo()])
             .then(( [initialCards, userInfo]) => {
                 console.log('Got cards!');
                 setCurrentUser(userInfo);
                 setCards(initialCards);
-
             })
             .catch((err) => {
                 console.log('MAMA!!!: ' + err.toString());
