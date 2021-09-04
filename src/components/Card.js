@@ -1,71 +1,74 @@
-import React from "react";
+import React, {useContext} from "react";
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
-import {useContext} from "react";
 
 
 function Card(props) {
-const currentUser1 = useContext(CurrentUserContext);
+    const currentUser = useContext(CurrentUserContext);
 // Определяем, является ли текущий юзер- я,  владельцем  карточки
-const isOwn = props.card.owner._id === currentUser1._id;
+    const isOwn = props.card.owner._id === currentUser._id;
 
 
 // Определяем, есть ли у карточки лайк, поставленный текущим пользователем - мной
-    const isLiked = props.card.likes.some(i => i._id === currentUser1._id);
+    const isLiked = props.card.likes.some(i => i._id === currentUser._id);
 
 
 // Создаём переменную, которую после зададим в `className` для кнопки удаления
- const cardDeleteButtonClassName = (
-/*`card__delete-button ${props.isOwn ? 'card__delete-button_visible' : 'card__delete-button_hidden'}`*/
+    const cardDeleteButtonClassName = (
+        /*`card__delete-button ${props.isOwn ? 'card__delete-button_visible' : 'card__delete-button_hidden'}`*/
 // Если собственник = текущему id юзера, то мусорка активна : иначе - не удалить.
-        `elements__trash ${isOwn  ? 'card__delete-button' : ' '}` );
-
+        `elements__trash ${isOwn ? 'card__delete-button' : ' '}`);
 
 
 // Создаём переменную, которую после зададим в `className` для кнопки лайка
 // Если лайкнуто текущим мной-чернеет лайк
     const cardLikeButtonClassName = (
-        `elements__like ${isLiked  ? 'elements__like-black' : ' '}` );
+        `elements__like ${isLiked ? 'elements__like-black' : ' '}`);
 
-   function handleCardClick(evt) {
-    props.onCardClick(props.card);}
+    function handleCardClick(evt) {
+        props.onCardClick(props.card);
+    }
 
-   function handleCardDelete()
-   {props.onCardDelete(props.card);}
+    function handleCardDeleteClick() //handleCardClick
+    {
+        props.onCardDelete(props.card);
+    }
 
 //обработчик клика и вызываем  onCardLike
-    function handleCardLike()
-    {props.onCardLike(props.card);}
+    function handleCardLike() {
+        props.onCardLike(props.card);
+    }
 
 
     return (
-        <CurrentUserContext.Provider value={currentUser1}>
-        <div className="elements__card">
-            <div className="elements__trash-image">
-                <button aria-label='Удаление элемента'
-                       // className="elements__trash"
-                        type="button"
-                         onClick={handleCardDelete}
-                         className={cardDeleteButtonClassName} />
-                <img alt={props.alt}
-                     className="elements__image" /* {props.title}*/
-                     onClick={handleCardClick}
-                     src={props.src}/>
-                <div className="elements__combine">
-                    {/* eslint-disable-next-line jsx-a11y/heading-has-content*/}
-                    <h2 className="elements__word">{props.title}</h2>
-                    <div className="elements__container-like">
-                        <button
-                           // className="elements__like"
-                            className={cardLikeButtonClassName}
+        <CurrentUserContext.Provider value={currentUser}>
+            <div className="elements__card">
+                <div className="elements__trash-image">
+                    <button aria-label='Удаление элемента'
+                        // className="elements__trash"
+                            type="button"
+                            onClick={handleCardDeleteClick}
+                            className={cardDeleteButtonClassName}/>
+                    <img alt={props.alt}
+                         className="elements__image" /* {props.title}*/
+                         onClick={handleCardClick}
+                         src={props.src}/>
+                    <div className="elements__combine">
+                        {/* eslint-disable-next-line jsx-a11y/heading-has-content*/}
+                        <h2 className="elements__word">{props.title}</h2>
+                        <div className="elements__container-like">
+                            <button
+                                // className="elements__like"
+                                className={cardLikeButtonClassName}
                                 aria-label='Лайк'
                                 type="button"
                                 onClick={handleCardLike}/>
-                        <p className="elements__like-count">{props.card.likes.length}</p>
+                            <p className="elements__like-count">{props.card.likes.length}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </CurrentUserContext.Provider>
     )
 }
+
 export default Card;

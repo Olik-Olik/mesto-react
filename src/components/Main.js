@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Card from './Card';
 import api from "../utils/Api";
 import '../index.css';
@@ -6,14 +6,25 @@ import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function Main(props) {
 
- const currentUser1 = useContext(CurrentUserContext);
- const [cards, setCards] = useState([]);
+    const currentUser = useContext(CurrentUserContext);
+    const [cards, setCards] = useState([]);
 
 //card
-    useEffect(()=> api.getInitialCards()
-        .then((res)=> {setCards(res)}), []);
+    useEffect(() => api.getInitialCards()
+        .then((res) => {
+            setCards(res)
+        }), []);
 
+    /*   function handleCardLike(card) {
+           // Снова проверяем, есть ли уже лайк на этой карточке
+           const isLiked = card.likes.some(i => i._id === currentUser._id);
 
+           // Отправляем запрос в API и получаем обновлённые данные карточки
+           api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+               setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+           });
+       }
+   */
     //avatar
     const handleEditAvatarOpen = (evt) => {
         console.log("I'm a superstar 1!!!")
@@ -24,30 +35,20 @@ function Main(props) {
         console.log("I'm a superstar 2!!!")
         props.setisEditProfilePopupOpen(true)
     }
-//place
+    //place
     const handleAddPlaceOpen = (evt) => {
         console.log("I'm a superstar 3!!!")
         props.setisAddPlacePopupOpen(true)
     }
 
-    const handleDeleteConfirmOpen = (evt) => {
-        console.log("handleConfirmDeletePopup")
-        props.setisEditProfilePopupOpen(true)
-    }
-
-    const handleImagePopupOpen = (evt) => {
-        console.log("handleImagePopupOpen")
-        props.setisImagePopup(true)
-    }
 
     return (
-        <CurrentUserContext.Provider value={currentUser1}>
         <main className="container">
             <section className="profile">
                 <div className="profile__person-info">
                     <div className="profile__person-infobox">
                         <img alt="Аватар того, кто его вносит" className="profile__avatar"
-                             src={currentUser1.avatar}
+                             src={currentUser.avatar}
                         />
                         <div className="profile__avatar-edit-container">
                             <button className="profile__foto-edit-button" type="button"
@@ -56,12 +57,12 @@ function Main(props) {
                     </div>
                     <div className="profile__info">
                         <div className="profile__title-edit-button">
-                            <h1 className="profile__title">{currentUser1.name}</h1>
+                            <h1 className="profile__title">{currentUser.name}</h1>
                             <button className="profile__edit-button" type="button"
                                     onClick={handleEditProfileOpen}
                             />
                         </div>
-                        <p className="profile__subtitle">{currentUser1.about} </p>
+                        <p className="profile__subtitle">{currentUser.about} </p>
                     </div>
                 </div>
                 <div className="profile__button-container">
@@ -86,11 +87,11 @@ function Main(props) {
                 }
             </section>
         </main>
-      </CurrentUserContext.Provider>
+
     );
 }
-export default Main;
 
+export default Main;
 
 
 /*     function getUserInfoPromise() {
@@ -109,7 +110,7 @@ export default Main;
               }
         //меняю .user ---- карточки не вываливаются, что логично
             setCurrentUser(userInfo);
-             currentUser1(userInfo);// Юзер с контекстом.
+             currentUser(userInfo);// Юзер с контекстом.
               console.log('Got cards!');
               setCards(initialCards);
           })
@@ -118,4 +119,8 @@ export default Main;
               });
       }
 
-      React.useEffect(fetchInitData, []);*/
+      React.useEffect(fetchInitData, []);
+
+const handleDeleteConfirmOpen = (evt) => {
+    console.log("handleConfirmDeletePopup")
+    props.setisEditProfilePopupOpen(true)*/

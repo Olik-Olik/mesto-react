@@ -2,13 +2,23 @@ import React, {useEffect} from "react";
 
 function PopupWithForm(props) {
 
-    function closePopupKeyUp(evt){
-        if (evt.key ==='Escape'){
-            props.onClose &&props.onClose();
+    function handleSubmit(evt) {
+        // Запрещаем браузеру переходить по адресу формы
+        evt.preventDefault();
+    }
+
+    function closePopupKeyUp(evt) {
+        if (evt.key === 'Escape') {
+            props.onClose && props.onClose();
         }
     }
-    useEffect(()=>{document.addEventListener('keyup', closePopupKeyUp);
-    return ()=>{document.removeEventListener('keyup', closePopupKeyUp);}},[])
+
+    useEffect(() => {
+        document.addEventListener('keyup', closePopupKeyUp);
+        return () => {
+            document.removeEventListener('keyup', closePopupKeyUp);
+        }
+    }, [])
 
     return (
         <section className={`popup popup_type_edit ${props.isOpen ? "popup_opened" : ""} `}>

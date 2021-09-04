@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import PopupWithForm from "./PopupWithForm";
 import api from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
@@ -6,12 +6,13 @@ import {CurrentUserContext} from "../contexts/CurrentUserContext";
 function EditProfilePopup(props) {
     const [profileTitle, setProfileTitle] = useState('');
     const [profileJob, setProfileJob] = useState('');
-    const currentUser1 = useContext(CurrentUserContext);
+    const currentUser = useContext(CurrentUserContext);
 
 
-    useEffect(() =>{
-        setProfileTitle(currentUser1.name)
-        setProfileJob(currentUser1.about)}, [])
+    useEffect(() => {
+        setProfileTitle(currentUser.name)
+        setProfileJob(currentUser.about)
+    }, [])
 
 
     function handleClose(evt) {
@@ -19,19 +20,31 @@ function EditProfilePopup(props) {
             props.onClose();
     }
 
-    function handleChangeProfileTitle(evt){
-    evt.preventDefault();
-    setProfileTitle(evt.target.value)}
-
-    function handleChangeProfileJob(evt){
-        evt.preventDefault();
-        setProfileJob(evt.target.value)}
-
-    function handleSubmit(evt) {
-        evt.preventDefault();
-        props.updateProfile({'name':profileTitle,
-                              'about':profileJob});
+    function handleChangeProfileTitle(evt) {
+        //evt.preventDefault();
+        setProfileTitle(evt.target.value)
     }
+
+    function handleChangeProfileJob(evt) {
+        //evt.preventDefault();
+        setProfileJob(evt.target.value)
+    }
+
+    function handleSubmitProfile(evt) {
+        evt.preventDefault();
+        api.submitUserInfo({
+            'name': profileTitle,
+            'about': profileJob
+        })
+            .then(data => {
+                currentUser.name = data.name;
+                currentUser.about = data.about;
+                props.onSubmit();            })
+            .catch((err) => {
+                console.log('MAMA, username не  получен!!!: ' + err.toString())
+            })
+    }
+
 
     return (
         <PopupWithForm
@@ -40,10 +53,8 @@ function EditProfilePopup(props) {
             title="Редактировать профиль"
             onClose={props.onClose}
             isOpen={props.isOpen}
-            onSubmit={handleSubmit}
-            buttonText="Сохранить"
-            onClick={handleSubmit}
-        >
+            onSubmit={handleSubmitProfile}
+            buttonText="Сохранить">
             <label className="popup__label">
                 <input className="popup__field"
                        onChange={handleChangeProfileTitle}
@@ -74,10 +85,11 @@ function EditProfilePopup(props) {
         </PopupWithForm>
     )
 }
+
 export default EditProfilePopup;
 
 /*
-    function handleSubmit(evt) {
+    function handleSubmitProfile(evt) {
         evt.preventDefault();
         api.setUserInfo({profileTitle}, {profileJob});
         props.onClose();

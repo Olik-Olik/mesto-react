@@ -1,4 +1,4 @@
-import React, {useEffect, useContext, useState,} from "react";
+import React, {useEffect, useState,} from "react";
 import '../index.css';
 import Header from "./Header";
 import Main from './Main';
@@ -10,63 +10,68 @@ import EditProfilePopup from "./EditProfilePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
-import * as url from "url";
 
 export default function App(props) {
 
-    const currentUser1 = useContext(CurrentUserContext);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     const [isConfirmDeletePopup, setIsConfirmDeletePopup] = useState(false);
-    const [currentUser, setCurrentUser] = useState({});
     const [selectedCard, setSelectedCard] = useState({});
-    /* const isOwn = props.card.owner._id === currentUser1._id;*/
+    /* const isOwn = props.card.owner._id === currentUser._id;*/
     const [userAvatar, setUserAvatar] = useState({});
     const [cards, setCards] = useState([]);
+    const [currentUser, setCurrentUser] = useState({});//Стейт переменная используется
+    // как значение провайдера контекста
+    //Провайдер контекст транслирует дочерним компонентам это значение.
 
 
 //card
     function getCards() {
         api.getInitialCards()
             .then((res) => {
-                setSelectedCard(res)
+                setCards(res)
             })
             .catch((err) => {
                 console.log('MAMA, КАРТОЧКИ не  получены!!!: ' + err.toString())
-
             })
     }
+
 //user
     useEffect(() => {
         api.getUserInfo()
-            .then(res => setCurrentUser(res))
+            .then(data => {
+                setCurrentUser(data);
+//                userInfo = data;
+            })
             .catch((err) => {
                 console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
             })
     }, [])
+
 //like
     function handleCardLike(card) {
         // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser1._id);
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
 
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
             setSelectedCard((state) => state.map((c) => c._id === card._id ? newCard : c));
-        });
-    }
-    //дописать   .catch
-    function handleCardLike(card) {
-        // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser1._id);
-
-        // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-        });
+        }).catch((err) => {
+            console.log('MAMA!!!: ' + err.toString())
+        })
     }
 
+    const handleImagePopupOpen = (evt) => {
+        console.log("handleImagePopupOpen")
+        props.setisImagePopup(true)
+    }
+
+
+    function changeLikeCardStatus(card) {
+
+    }
 
 
 ///avatar
@@ -74,16 +79,9 @@ export default function App(props) {
         console.log("I'm a walrus!!! Обработчик авы")
         setIsEditAvatarPopupOpen(true);
     }
-    function handleEditAvatar() { /// подумать
-        const editAvatar = currentUser1.avatar.url
-        api.setUserAvatar()
-            .then(url => {
-                setCurrentUser(currentUser);
-            })
-        closeAllPopups()
-    } //дописать   .catch
 
 
+//дописать   .catch
 
 
 //profile
@@ -91,17 +89,24 @@ export default function App(props) {
         console.log("I'm a walrus 2!!!")
         setIsEditProfilePopupOpen(true);
     }
-    function handleEditProfile(item) {
-        const newDataUser = currentUser1.value
+
+    function handleEditProfileSubmit(item) {
+        console.log("I'm a walrus 6!!!")
+/*        const newDataUser = currentUser.value
         newDataUser.name = item.name
         newDataUser.about = item.about
         api.getUserInfo(newDataUser)
-       .then((res) => setCurrentUser(newDataUser))
+            .then((res) => setCurrentUser(newDataUser))
+            .catch((err) => {
+                console.log('MAMA, like не  получены!!!: ' + err.toString())
+            })*/
         closeAllPopups();
     }
-    //.catch
 
-
+    function handleEditAvatarSubmit(evt) {
+        console.log("I'm a walrus 5!!!")
+        closeAllPopups();
+    }
 
 ///////place
     function handleAddPlaceClick(evt) {
@@ -109,11 +114,17 @@ export default function App(props) {
         setIsAddPlacePopupOpen(true);
     }
 
-    function handleAddPlaceSubmit(newCard){
+    function handleAddPlaceSubmit(newCard) {
         api.addCard(newCard)
-            .then((newCardAll)=>{setCards([newCardAll,...cards]);
-        closeAllPopups();
-    })}
+            .then(() => {
+                setCards([]);
+                closeAllPopups();
+            })
+            .catch((err) => {
+                console.log('MAMA, like не  получены!!!: ' + err.toString())
+            })
+    }
+
 
     function handleCardClick(card) {
         console.log("I'm a walrus 4!!!")
@@ -122,10 +133,10 @@ export default function App(props) {
     }
 
     //delete card
-    function handleDeleteClick(card) {
+    function handleCardDeleteClick(card) {
         console.log("Any interesting - delete");
-        const isOwn = props.card.owner._id === currentUser1._id;
-        api.getInitialCards()
+        const isOwn = props.card.owner._id === currentUser._id; //////////own
+        api.getInitialCards(card)
             .then(res => {
                 setSelectedCard(res)
                 if (isOwn) {
@@ -148,87 +159,81 @@ export default function App(props) {
         setIsConfirmDeletePopup(false);
     }
 
-    /*    //пока удаление не нужно
-        function handleDeleteConfirm(){
-            setIsConfirmDeletePopup(true)
-            closeAllPopups()
-        }*/
+
+    /*   function handleDeleteConfirm() {
+           setIsConfirmDeletePopup(true)
+           closeAllPopups()
+       }*/
 
     return (
-        <CurrentUserContext.Provider value={currentUser}>
+
         <>
             <Header/>
-            <Main
-                cards={cards}
-                onCardClick={handleCardClick}
-                onEditAvatar={props.onEditAvatar}
-                onEditProfile={props.onEditProfile}
-                onAddPlace={props.onAddPlace}
-                onCardDelete={props.onCardDelete}
-                onCardLike ={props.onCardLike}
+            <CurrentUserContext.Provider value={currentUser}>
+                <Main
+                    //вообще тут нужны обработчики handle.....
+                    cards={cards}
+                    onCardClick={handleCardClick}
+/*
+                    onEditAvatar={handleEditAvatarClick}
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+*/
+                    onCardDelete={handleCardDeleteClick} // описать
+                    onCardLike={handleCardLike}
 
-                setisEditAvatarPopupOpen={(evt) => {
-                    console.log("I'm a superstar avatar!!!")
-                    handleEditAvatarClick(evt)
-                }}
+                    setisEditAvatarPopupOpen={(evt) => {
+                        console.log("I'm a superstar avatar!!!")
+                        handleEditAvatarClick(evt)
+                    }}
 
-                setisEditProfilePopupOpen={(evt) => {
-                    console.log("I'm a superstar too!!!")
-                    handleEditProfileClick(evt)
-                }}
+                    setisEditProfilePopupOpen={(evt) => {
+                        console.log("I'm a superstar too!!!")
+                        handleEditProfileClick(evt)
+                    }}
 
-                setisAddPlacePopupOpen={(evt) => {
-                    console.log("I'm a superstar too too!!!")
-                    handleAddPlaceClick(evt)
-                }}
+                    setisAddPlacePopupOpen={(evt) => {
+                        console.log("I'm a superstar too too!!!")
+                        handleAddPlaceClick(evt)
+                    }}
 
-         /*       setisConfirmDeletePopup={(evt) =>
-                    handleConfirmDeletePopup(evt)
-                }*/
+                    setisImagePopup={(evt) =>
+                        handleCardClick(evt)
+                    }
+                />
+                {isEditAvatarPopupOpen && <EditAvatarPopup
+                    isOpen={isEditAvatarPopupOpen}
+                    onClose={closeAllPopups}
+                    onSubmit={handleEditAvatarSubmit}
+                    buttonText="Cохранить"/>}
 
-                setisImagePopup={(evt) =>
-                    handleCardClick(evt)
-                }
+                {isEditProfilePopupOpen && <EditProfilePopup
+                    isOpen={isEditProfilePopupOpen}
+                    onClose={closeAllPopups}
+                    buttonText="Сохранить"
+                    onSubmit={handleEditProfileSubmit}
+                />}
+                {isAddPlacePopupOpen && <AddPlacePopup
+                    isOpen={isAddPlacePopupOpen}
+                    onClose={closeAllPopups}
+                    onAddPlacePopup={handleAddPlaceSubmit}
+                    buttonText="Добавить"/>}
 
-            />
-            <EditAvatarPopup
-                isOpen={isEditAvatarPopupOpen}
-                onClose={closeAllPopups}
-               /* onSubmit={handleSubmitAvatar}*/
-                buttonText="Cохранить"/>
-
-            <EditProfilePopup
-                isOpen={isEditProfilePopupOpen}
-                onClose={closeAllPopups}
-                buttonText="Сохранить"
-                /*    isSubmit ={handleSubmitProfileClick}*/
-                /*     addProfile =*/
-            />
-            <AddPlacePopup
-                isOpen={isAddPlacePopupOpen}
-                onClose={closeAllPopups}
-            //    onAddPlacePopup ={ } !!!! добавить
-                buttonText="Добавить"/>
-
-            <ConfirmDeletePopup
-                isOpen={isConfirmDeletePopup}
-                onClose={closeAllPopups}
-                buttonText="Да"/>
-            <ImagePopup
-                isOpen={isImagePopupOpen}
-                card={selectedCard}
-                onClose={closeAllPopups}
-            />
+                <ConfirmDeletePopup
+                    isOpen={isConfirmDeletePopup}
+                    onClose={closeAllPopups}
+                    buttonText="Да"/>
+                {isImagePopupOpen && <ImagePopup
+                    isOpen={isImagePopupOpen}
+                    card={selectedCard}
+                    onClose={closeAllPopups}
+                />}
+            </CurrentUserContext.Provider>
             <Footer/>
 
         </>
-        </CurrentUserContext.Provider>
-
     );
 }
-
-
-
 
 
 /*      function handleSubmitProfileClick{(evt) =>

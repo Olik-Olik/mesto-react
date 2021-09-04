@@ -14,7 +14,8 @@ function AddPlacePopup(props) {
             props.onClose();
     }
 
-    function handleSubmit(evt) {
+    function handleSubmitAddPlace(evt) {
+        // Запрещаем браузеру переходить по адресу формы
         evt.preventDefault();
         api.submitNewCard({
             title: placeTitle,
@@ -38,7 +39,7 @@ function AddPlacePopup(props) {
             formName="form_add_place"
             title="Редактировать место"
             isOpen={props.isOpen}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmitAddPlace}
             buttonText="Сохранить"
         >
             <label className="popup__label">
