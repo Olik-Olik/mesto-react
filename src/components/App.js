@@ -28,20 +28,25 @@ export default function App(props) {
 
 
 //card
-/*    function getCards() {
-        api.getInitialCards()
-            .then((res) => {
-                setCards(res)
-            })
-            .catch((err) => {
-                console.log('MAMA, КАРТОЧКИ не  получены!!!: ' + err.toString())
-            })
-    }*/
+    /*    function getCards() {
+            api.getInitialCards()
+                .then((res) => {
+                    setCards(res)
+                })
+                .catch((err) => {
+                    console.log('MAMA, КАРТОЧКИ не  получены!!!: ' + err.toString())
+                })
+        }*/
 //card
-     useEffect(() => api.getInitialCards()
-            .then((res) => {
-                setCards(res)
-            }), []);
+    useEffect(() =>
+        api.getInitialCards()
+        .then((res) => {
+            setCards(res)
+        })
+        .catch((err) => {
+            console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
+        }
+        ), []);
 
 //user
     useEffect(() => {
@@ -65,29 +70,32 @@ export default function App(props) {
                 .then((newCard) => {
                     setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
                 })
-            // Отправляем запрос в API и получаем обновлённые данные карточки
+                .catch((err) => {
+                    console.log('MAMA!!! DisLike: ' + err.toString())
+                })
 
-        } else {api.like(card._id)
-               .then((newCard) => {
-                setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
-            })
+        } else {
+            api.like(card._id)
+                .then((newCard) => {
+                    setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
+                })
                 .catch((err) => {
                     console.log('MAMA!!! Like: ' + err.toString())
                 })
         }
     }
-/*
-function handleCardLike(card) {
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.like(card._id)
-        .then((newCard) => {
-            setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
-        })
-        .catch((err) => {
-            console.log('MAMA!!! Like: ' + err.toString())
-        })
-}*/
 
+    /* это только лайк
+    function handleCardLike(card) {
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+        api.like(card._id)
+            .then((newCard) => {
+                setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
+            })
+            .catch((err) => {
+                console.log('MAMA!!! Like: ' + err.toString())
+            })
+    }*/
 
 
     const handleImagePopupOpen = (evt) => {
@@ -109,14 +117,14 @@ function handleCardLike(card) {
 
     function handleEditProfileSubmit(item) {
         console.log("I'm a walrus 6!!!")
-/*        const newDataUser = currentUser.value
-        newDataUser.name = item.name
-        newDataUser.about = item.about
-        api.getUserInfo(newDataUser)
-            .then((res) => setCurrentUser(newDataUser))
-            .catch((err) => {
-                console.log('MAMA, like не  получены!!!: ' + err.toString())
-            })*/
+        /*        const newDataUser = currentUser.value
+                newDataUser.name = item.name
+                newDataUser.about = item.about
+                api.getUserInfo(newDataUser)
+                    .then((res) => setCurrentUser(newDataUser))
+                    .catch((err) => {
+                        console.log('MAMA, like не  получены!!!: ' + err.toString())
+                    })*/
         closeAllPopups();
     }
 
@@ -156,7 +164,7 @@ function handleCardLike(card) {
         if (isOwn) {
             api.submitRemoveCard(card._id)
                 .then(newArrCards => {
-                    setCards(cards.filter((c) => c._id !== card._id ))
+                    setCards(cards.filter((c) => c._id !== card._id))
                     closeAllPopups();
                 })
                 .catch((err) => {
