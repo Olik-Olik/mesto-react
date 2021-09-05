@@ -7,13 +7,9 @@ import {CurrentUserContext} from '../contexts/CurrentUserContext';
 function Main(props) {
 
     const currentUser = useContext(CurrentUserContext);
-    const [cards, setCards] = useState([]);
+ //   const [cards, setCards] = useState([]);
 
-//card
-    useEffect(() => api.getInitialCards()
-        .then((res) => {
-            setCards(res)
-        }), []);
+
 
     /*   function handleCardLike(card) {
            // Снова проверяем, есть ли уже лайк на этой карточке
@@ -72,8 +68,8 @@ function Main(props) {
 
             </section>
             <section className="elements">
-                {cards &&
-                cards.map(card => (
+                {props.cards &&
+                props.cards.map(card => (
                     <Card card={card}
                           key={card._id}
                           src={card.link}

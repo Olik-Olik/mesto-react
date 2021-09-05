@@ -37,6 +37,11 @@ export default function App(props) {
                 console.log('MAMA, КАРТОЧКИ не  получены!!!: ' + err.toString())
             })
     }
+//card
+     useEffect(() => api.getInitialCards()
+            .then((res) => {
+                setCards(res)
+            }), []);
 
 //user
     useEffect(() => {
@@ -115,14 +120,15 @@ export default function App(props) {
     }
 
     function handleAddPlaceSubmit(newCard) {
-        api.addCard(newCard)
-            .then(() => {
-                setCards([]);
+        api.submitNewCard(newCard)
+            .then(data => {
+                setCards([data, ...cards]);
                 closeAllPopups();
             })
             .catch((err) => {
-                console.log('MAMA, like не  получены!!!: ' + err.toString())
+                console.log('MAMA, место не добавлено!!!: ' + err.toString())
             })
+
     }
 
 
@@ -174,11 +180,11 @@ export default function App(props) {
                     //вообще тут нужны обработчики handle.....
                     cards={cards}
                     onCardClick={handleCardClick}
-/*
+
                     onEditAvatar={handleEditAvatarClick}
                     onEditProfile={handleEditProfileClick}
                     onAddPlace={handleAddPlaceClick}
-*/
+
                     onCardDelete={handleCardDeleteClick} // описать
                     onCardLike={handleCardLike}
 

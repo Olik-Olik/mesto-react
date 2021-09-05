@@ -39,12 +39,12 @@ function EditProfilePopup(props) {
             .then(data => {
                 currentUser.name = data.name;
                 currentUser.about = data.about;
-                props.onSubmit();            })
+                props.onSubmit();
+            })
             .catch((err) => {
                 console.log('MAMA, username не  получен!!!: ' + err.toString())
             })
     }
-
 
     return (
         <PopupWithForm

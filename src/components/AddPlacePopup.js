@@ -2,27 +2,28 @@ import React, {useState} from "react";
 //import isAddPlacePopupOpen from './App';
 import PopupWithForm from "./PopupWithForm";
 import api from "../utils/Api";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
+
 
 function AddPlacePopup(props) {
-    //попробуем стейты
 
     const [placeTitle, setplaceTitle] = useState(''); //name of img
     const [placeUrl, setplaceUrl] = useState(''); //img
 
-    function handleClose(evt) {
+/*    function handleClose(evt) {
         if (evt.target.classList.contains('popup'))
             props.onClose();
-    }
+    }*/
 
     function handleSubmitAddPlace(evt) {
-        // Запрещаем браузеру переходить по адресу формы
+   // Запрещаем браузеру переходить по адресу формы
         evt.preventDefault();
-        api.submitNewCard({
-            title: placeTitle,
-            name: placeUrl
-        })
-    }
-
+        const  newCard ={
+             'name': placeTitle,
+              'link':  placeUrl
+        }
+      props.onAddPlacePopup(newCard)
+}
 
 //теперь обработчик  места и ссылки
     function handleChangeTitle(evt) {

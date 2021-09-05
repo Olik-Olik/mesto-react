@@ -5,13 +5,13 @@ import api from "../utils/Api";
 
 function EditAvatarPopup(props) {
     const [avaUrl, setAvaUrl] = useState('');
-    const avaRef = useRef();
+ //   const avaRef = useRef();
     const currentUser = useContext(CurrentUserContext);
 
-    function handleClose(evt) {
+/*    function handleClose(evt) {
         if (evt.target.classList.contains('popup'))
             props.onClose();
-    }
+    }*/
 
     function handleChangeAva(evt) {
         setAvaUrl(evt.target.value);
