@@ -28,7 +28,7 @@ export default function App(props) {
 
 
 //card
-    function getCards() {
+/*    function getCards() {
         api.getInitialCards()
             .then((res) => {
                 setCards(res)
@@ -36,7 +36,7 @@ export default function App(props) {
             .catch((err) => {
                 console.log('MAMA, КАРТОЧКИ не  получены!!!: ' + err.toString())
             })
-    }
+    }*/
 //card
      useEffect(() => api.getInitialCards()
             .then((res) => {
@@ -56,15 +56,16 @@ export default function App(props) {
     }, [])
 
 //like
-    function handleCardLike(card) {
-        // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
 
+
+    function handleCardLike(card) {
         // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-            setSelectedCard((state) => state.map((c) => c._id === card._id ? newCard : c));
-        }).catch((err) => {
-            console.log('MAMA!!!: ' + err.toString())
+        api.like(card._id)
+            .then((newCard) => {
+            setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
+        })
+            .catch((err) => {
+            console.log('MAMA!!! Like: ' + err.toString())
         })
     }
 
@@ -74,20 +75,12 @@ export default function App(props) {
     }
 
 
-    function changeLikeCardStatus(card) {
-
-    }
-
 
 ///avatar
     function handleEditAvatarClick(evt) {
         console.log("I'm a walrus!!! Обработчик авы")
         setIsEditAvatarPopupOpen(true);
     }
-
-
-//дописать   .catch
-
 
 //profile
     function handleEditProfileClick(evt) {
@@ -140,8 +133,9 @@ export default function App(props) {
 
     //delete card
     function handleCardDeleteClick(card) {
-        console.log("Any interesting - delete");
-        const isOwn = props.card.owner._id === currentUser._id; //////////own
+        'use strict';
+        console.log("Anything interesting - delete");
+        const isOwn = props.card.isOwn._id === currentUser._id; //////////own
         api.getInitialCards(card)
             .then(res => {
                 setSelectedCard(res)
