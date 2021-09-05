@@ -56,25 +56,44 @@ export default function App(props) {
     }, [])
 
 //like
-
-
     function handleCardLike(card) {
-        // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.like(card._id)
-            .then((newCard) => {
+        // Снова проверяем, есть ли уже лайк на этой карточке
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        if (isLiked) {
+            // Отправляем запрос в API и получаем обновлённые данные карточки
+            api.dislike(card._id)
+                .then((newCard) => {
+                    setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
+                })
+            // Отправляем запрос в API и получаем обновлённые данные карточки
+
+        } else {api.like(card._id)
+               .then((newCard) => {
+                setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
+            })
+                .catch((err) => {
+                    console.log('MAMA!!! Like: ' + err.toString())
+                })
+        }
+    }
+/*
+function handleCardLike(card) {
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api.like(card._id)
+        .then((newCard) => {
             setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
         })
-            .catch((err) => {
+        .catch((err) => {
             console.log('MAMA!!! Like: ' + err.toString())
         })
-    }
+}*/
+
+
 
     const handleImagePopupOpen = (evt) => {
         console.log("handleImagePopupOpen")
         props.setisImagePopup(true)
     }
-
-
 
 ///avatar
     function handleEditAvatarClick(evt) {
@@ -131,19 +150,22 @@ export default function App(props) {
         setIsImagePopupOpen(true);
     }
 
-    //delete card
     function handleCardDeleteClick(card) {
-        'use strict';
         console.log("Anything interesting - delete");
-        const isOwn = props.card.isOwn._id === currentUser._id; //////////own
-        api.getInitialCards(card)
-            .then(res => {
-                setSelectedCard(res)
-                if (isOwn) {
-                    api.submitRemoveCard(props.card._id);
-                }
-            })
+        const isOwn = card.owner._id === currentUser._id;
+        if (isOwn) {
+            api.submitRemoveCard(card._id)
+                .then(newArrCards => {
+                    setCards(cards.filter((c) => c._id !== card._id ))
+                    closeAllPopups();
+                })
+                .catch((err) => {
+                    console.log('MAMA, фотка не удалена!!!: ' + err.toString())
+                })
+
+        }
     }
+
 
     /* function handleConfirmDeletePopup(evt) {
          console.log("I'm a walrus handleConfirmDeletePopup!!!")
@@ -181,6 +203,8 @@ export default function App(props) {
 
                     onCardDelete={handleCardDeleteClick} // описать
                     onCardLike={handleCardLike}
+                    /*  onCarddisLike={handleCarddisLike}
+                    onCardLike={handleCardLikeAll}*/
 
                     setisEditAvatarPopupOpen={(evt) => {
                         console.log("I'm a superstar avatar!!!")
