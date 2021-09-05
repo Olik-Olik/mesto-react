@@ -57,7 +57,6 @@ function Card(props) {
                             <button
                                 // className="elements__like"
                                 className={cardLikeButtonClassName}
-                                //className=''
                                 aria-label='Лайк'
                                 type="button"
                                 onClick={handleCardLike}/>

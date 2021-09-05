@@ -28,16 +28,6 @@ export default function App(props) {
 
 
 //card
-    /*    function getCards() {
-            api.getInitialCards()
-                .then((res) => {
-                    setCards(res)
-                })
-                .catch((err) => {
-                    console.log('MAMA, КАРТОЧКИ не  получены!!!: ' + err.toString())
-                })
-        }*/
-//card
     useEffect(() =>
         api.getInitialCards()
         .then((res) => {
@@ -117,14 +107,6 @@ export default function App(props) {
 
     function handleEditProfileSubmit(item) {
         console.log("I'm a walrus 6!!!")
-        /*        const newDataUser = currentUser.value
-                newDataUser.name = item.name
-                newDataUser.about = item.about
-                api.getUserInfo(newDataUser)
-                    .then((res) => setCurrentUser(newDataUser))
-                    .catch((err) => {
-                        console.log('MAMA, like не  получены!!!: ' + err.toString())
-                    })*/
         closeAllPopups();
     }
 
@@ -174,7 +156,6 @@ export default function App(props) {
         }
     }
 
-
     /* function handleConfirmDeletePopup(evt) {
          console.log("I'm a walrus handleConfirmDeletePopup!!!")
          setIsConfirmDeletePopup(true);
@@ -209,10 +190,8 @@ export default function App(props) {
                     onEditProfile={handleEditProfileClick}
                     onAddPlace={handleAddPlaceClick}
 
-                    onCardDelete={handleCardDeleteClick} // описать
+                    onCardDelete={handleCardDeleteClick}
                     onCardLike={handleCardLike}
-                    /*  onCarddisLike={handleCarddisLike}
-                    onCardLike={handleCardLikeAll}*/
 
                     setisEditAvatarPopupOpen={(evt) => {
                         console.log("I'm a superstar avatar!!!")
@@ -267,9 +246,3 @@ export default function App(props) {
     );
 }
 
-
-/*      function handleSubmitProfileClick{(evt) =>
-      evt.preventDefault()
-      props.addProfile({title:handleName,
-                        name:handleJob})
-  }*/

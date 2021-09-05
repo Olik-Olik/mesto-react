@@ -33,7 +33,6 @@ function EditAvatarPopup(props) {
 
     }
 
-
     return (
         <PopupWithForm
             onClose={props.onClose}
