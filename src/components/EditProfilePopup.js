@@ -15,11 +15,11 @@ function EditProfilePopup(props) {
     }, [])
 
 
-    function handleClose(evt) {
+   /* function handleClose(evt) {
         if (evt.target.classList.contains('popup'))
             props.onClose();
     }
-
+*/
     function handleChangeProfileTitle(evt) {
         //evt.preventDefault();
         setProfileTitle(evt.target.value)
@@ -64,6 +64,7 @@ function EditProfilePopup(props) {
                        placeholder="Ваше имя"
                        required
                        type="text"
+                       value={profileTitle ? profileTitle : ''}
                 />
                 <span className="popup__input-error"
                       id="popup-field-name-error"/>
@@ -72,6 +73,7 @@ function EditProfilePopup(props) {
             <label className="popup__label">
                 <input className="popup__field"
                        onChange={handleChangeProfileJob}
+                       value={profileJob ? profileJob :''}
                        id="popup-field-job"
                        maxLength="200"
                        minLength="2"

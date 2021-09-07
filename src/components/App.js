@@ -20,7 +20,7 @@ export default function App(props) {
     const [isConfirmDeletePopup, setIsConfirmDeletePopup] = useState(false);
     const [selectedCard, setSelectedCard] = useState({});
     /* const isOwn = props.card.owner._id === currentUser._id;*/
-    const [userAvatar, setUserAvatar] = useState({});
+/*    const [userAvatar, setUserAvatar] = useState({});*/
     const [cards, setCards] = useState([]);
     const [currentUser, setCurrentUser] = useState({});//Стейт переменная используется
     // как значение провайдера контекста
@@ -90,7 +90,7 @@ export default function App(props) {
 
     const handleImagePopupOpen = (evt) => {
         console.log("handleImagePopupOpen")
-        props.setisImagePopup(true)
+        props.setIsImagePopup(true)
     }
 
 ///avatar
@@ -104,6 +104,7 @@ export default function App(props) {
         console.log("I'm a walrus 2!!!")
         setIsEditProfilePopupOpen(true);
     }
+/*
 
     function handleEditProfileSubmit(item) {
         console.log("I'm a walrus 6!!!")
@@ -114,6 +115,7 @@ export default function App(props) {
         console.log("I'm a walrus 5!!!")
         closeAllPopups();
     }
+*/
 
 ///////place
     function handleAddPlaceClick(evt) {
@@ -139,6 +141,7 @@ export default function App(props) {
         setSelectedCard(card);
         setIsImagePopupOpen(true);
     }
+
 
     function handleCardDeleteClick(card) {
         console.log("Anything interesting - delete");
@@ -193,36 +196,37 @@ export default function App(props) {
                     onCardDelete={handleCardDeleteClick}
                     onCardLike={handleCardLike}
 
-                    setisEditAvatarPopupOpen={(evt) => {
+                    setIsEditAvatarPopupOpen={(evt) => {
                         console.log("I'm a superstar avatar!!!")
                         handleEditAvatarClick(evt)
                     }}
 
-                    setisEditProfilePopupOpen={(evt) => {
+                    setIsEditProfilePopupOpen={(evt) => {
                         console.log("I'm a superstar too!!!")
                         handleEditProfileClick(evt)
                     }}
 
-                    setisAddPlacePopupOpen={(evt) => {
+                    setIsAddPlacePopupOpen={(evt) => {
                         console.log("I'm a superstar too too!!!")
                         handleAddPlaceClick(evt)
                     }}
 
-                    setisImagePopup={(evt) =>
+                    setIsImagePopup={(evt) =>
                         handleCardClick(evt)
                     }
+
                 />
                 {isEditAvatarPopupOpen && <EditAvatarPopup
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
-                    onSubmit={handleEditAvatarSubmit}
+                    onSubmit={closeAllPopups}
                     buttonText="Cохранить"/>}
 
                 {isEditProfilePopupOpen && <EditProfilePopup
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
                     buttonText="Сохранить"
-                    onSubmit={handleEditProfileSubmit}
+                    onSubmit={closeAllPopups}
                 />}
                 {isAddPlacePopupOpen && <AddPlacePopup
                     isOpen={isAddPlacePopupOpen}

@@ -10,17 +10,17 @@ function Main(props) {
     //avatar
     const handleEditAvatarOpen = (evt) => {
         console.log("I'm a superstar 1!!!")
-        props.setisEditAvatarPopupOpen(true)
+        props.setIsEditAvatarPopupOpen(true)
     }
     //profile
     const handleEditProfileOpen = (evt) => {
         console.log("I'm a superstar 2!!!")
-        props.setisEditProfilePopupOpen(true)
+        props.setIsEditProfilePopupOpen(true)
     }
     //place
     const handleAddPlaceOpen = (evt) => {
         console.log("I'm a superstar 3!!!")
-        props.setisAddPlacePopupOpen(true)
+        props.setIsAddPlacePopupOpen(true)
     }
 
     return (
