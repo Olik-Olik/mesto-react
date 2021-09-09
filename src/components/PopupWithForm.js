@@ -2,11 +2,6 @@ import React, {useEffect} from "react";
 
 function PopupWithForm(props) {
 
-    function handleSubmit(evt) {
-        // Запрещаем браузеру переходить по адресу формы
-        evt.preventDefault();
-    }
-
     function closePopupKeyUp(evt) {
         if (evt.key === 'Escape') {
             props.onClose && props.onClose();

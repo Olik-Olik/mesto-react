@@ -1,17 +1,8 @@
-import React, {useContext, useRef, useState} from "react";
+import React, {useState} from "react";
 import PopupWithForm from "./PopupWithForm";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
-import api from "../utils/Api";
 
 function EditAvatarPopup(props) {
     const [avaUrl, setAvaUrl] = useState('');
- //   const avaRef = useRef();
-    const currentUser = useContext(CurrentUserContext);
-
-/*    function handleClose(evt) {
-        if (evt.target.classList.contains('popup'))
-            props.onClose();
-    }*/
 
     function handleChangeAva(evt) {
         setAvaUrl(evt.target.value);
@@ -20,17 +11,9 @@ function EditAvatarPopup(props) {
     function handleEditAvatarSubmit(evt) {
         // Запрещаем браузеру переходить по адресу формы
         evt.preventDefault();
-        api.submitUserAvatar({
+        props.handleUpdateAvatar({
             'avatar': avaUrl
         })
-            .then(data => {
-                currentUser.avatar = data.avatar
-                props.onSubmit();
-            })
-            .catch((err) => {
-                console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
-            })
-
     }
 
     return (
@@ -51,7 +34,6 @@ function EditAvatarPopup(props) {
                        placeholder="Ссылка на новую аватарку"
                        required
                        type="url"
-                    /*     //  ref={avaRef}*/
                        value={avaUrl ? avaUrl : ''}
                        onChange={handleChangeAva}
                 />
@@ -62,7 +44,3 @@ function EditAvatarPopup(props) {
 }
 
 export default EditAvatarPopup;
-
-// useEffect(() => avaRef.current.value = currentUser;
-// api.handleSubmitAvatar =(avatar).then(newAva)=>
-

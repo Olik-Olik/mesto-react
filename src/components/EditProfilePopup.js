@@ -8,42 +8,25 @@ function EditProfilePopup(props) {
     const [profileJob, setProfileJob] = useState('');
     const currentUser = useContext(CurrentUserContext);
 
-
     useEffect(() => {
         setProfileTitle(currentUser.name)
         setProfileJob(currentUser.about)
     }, [])
 
-
-   /* function handleClose(evt) {
-        if (evt.target.classList.contains('popup'))
-            props.onClose();
-    }
-*/
     function handleChangeProfileTitle(evt) {
-        //evt.preventDefault();
         setProfileTitle(evt.target.value)
     }
 
     function handleChangeProfileJob(evt) {
-        //evt.preventDefault();
         setProfileJob(evt.target.value)
     }
 
     function handleSubmitProfile(evt) {
         evt.preventDefault();
-        api.submitUserInfo({
+        props.handleUpdateProfile({
             'name': profileTitle,
             'about': profileJob
         })
-            .then(data => {
-                currentUser.name = data.name;
-                currentUser.about = data.about;
-                props.onSubmit();
-            })
-            .catch((err) => {
-                console.log('MAMA, username не  получен!!!: ' + err.toString())
-            })
     }
 
     return (
@@ -89,11 +72,3 @@ function EditProfilePopup(props) {
 }
 
 export default EditProfilePopup;
-
-/*
-    function handleSubmitProfile(evt) {
-        evt.preventDefault();
-        api.setUserInfo({profileTitle}, {profileJob});
-        props.onClose();
-    }
-*/

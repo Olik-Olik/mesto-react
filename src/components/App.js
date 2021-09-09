@@ -19,8 +19,6 @@ export default function App(props) {
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     const [isConfirmDeletePopup, setIsConfirmDeletePopup] = useState(false);
     const [selectedCard, setSelectedCard] = useState({});
-    /* const isOwn = props.card.owner._id === currentUser._id;*/
-/*    const [userAvatar, setUserAvatar] = useState({});*/
     const [cards, setCards] = useState([]);
     const [currentUser, setCurrentUser] = useState({});//Стейт переменная используется
     // как значение провайдера контекста
@@ -34,7 +32,7 @@ export default function App(props) {
             setCards(res)
         })
         .catch((err) => {
-            console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
+            console.log('MAMA, Карточни не  получены!!!: ' + err.toString())
         }
         ), []);
 
@@ -43,12 +41,40 @@ export default function App(props) {
         api.getUserInfo()
             .then(data => {
                 setCurrentUser(data);
-//                userInfo = data;
             })
             .catch((err) => {
                 console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
             })
     }, [])
+
+
+    function handleUpdateAvatar(userData) {
+        // Запрещаем браузеру переходить по адресу формы
+        api.submitUserAvatar({
+            'avatar': userData.avatar
+        })
+            .then(data => {
+                setCurrentUser(data);
+                closeAllPopups()
+            })
+            .catch((err) => {
+                console.log('MAMA, Аватарчик не  получен!!!: ' + err.toString())
+            })
+    }
+
+    function handleUpdateProfile(userData) {
+        api.submitUserInfo({
+            'name': userData.name,
+            'about': userData.about
+        })
+            .then(data => {
+                setCurrentUser(data);
+                closeAllPopups()
+            })
+            .catch((err) => {
+                console.log('MAMA, username не  получен!!!: ' + err.toString())
+            })
+    }
 
 //like
     function handleCardLike(card) {
@@ -75,23 +101,11 @@ export default function App(props) {
         }
     }
 
-    /* это только лайк
-    function handleCardLike(card) {
-        // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.like(card._id)
-            .then((newCard) => {
-                setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
-            })
-            .catch((err) => {
-                console.log('MAMA!!! Like: ' + err.toString())
-            })
-    }*/
-
-
+/*
     const handleImagePopupOpen = (evt) => {
         console.log("handleImagePopupOpen")
         props.setIsImagePopup(true)
-    }
+    }*/
 
 ///avatar
     function handleEditAvatarClick(evt) {
@@ -104,18 +118,7 @@ export default function App(props) {
         console.log("I'm a walrus 2!!!")
         setIsEditProfilePopupOpen(true);
     }
-/*
 
-    function handleEditProfileSubmit(item) {
-        console.log("I'm a walrus 6!!!")
-        closeAllPopups();
-    }
-
-    function handleEditAvatarSubmit(evt) {
-        console.log("I'm a walrus 5!!!")
-        closeAllPopups();
-    }
-*/
 
 ///////place
     function handleAddPlaceClick(evt) {
@@ -159,11 +162,6 @@ export default function App(props) {
         }
     }
 
-    /* function handleConfirmDeletePopup(evt) {
-         console.log("I'm a walrus handleConfirmDeletePopup!!!")
-         setIsConfirmDeletePopup(true);
-     }*/
-
     function closeAllPopups() {
         console.log("I was so close...")
         setIsEditAvatarPopupOpen(false);
@@ -174,18 +172,12 @@ export default function App(props) {
     }
 
 
-    /*   function handleDeleteConfirm() {
-           setIsConfirmDeletePopup(true)
-           closeAllPopups()
-       }*/
-
     return (
 
         <>
             <Header/>
             <CurrentUserContext.Provider value={currentUser}>
                 <Main
-                    //вообще тут нужны обработчики handle.....
                     cards={cards}
                     onCardClick={handleCardClick}
 
@@ -219,14 +211,14 @@ export default function App(props) {
                 {isEditAvatarPopupOpen && <EditAvatarPopup
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
-                    onSubmit={closeAllPopups}
+                    handleUpdateAvatar={handleUpdateAvatar}
                     buttonText="Cохранить"/>}
 
                 {isEditProfilePopupOpen && <EditProfilePopup
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
                     buttonText="Сохранить"
-                    onSubmit={closeAllPopups}
+                    handleUpdateProfile={handleUpdateProfile}
                 />}
                 {isAddPlacePopupOpen && <AddPlacePopup
                     isOpen={isAddPlacePopupOpen}
