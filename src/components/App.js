@@ -28,13 +28,13 @@ export default function App(props) {
 //card
     useEffect(() =>
         api.getInitialCards()
-        .then((res) => {
-            setCards(res)
-        })
-        .catch((err) => {
-            console.log('MAMA, Карточни не  получены!!!: ' + err.toString())
-        }
-        ), []);
+            .then((res) => {
+                setCards(res)
+            })
+            .catch((err) => {
+                    console.log('MAMA, Карточни не  получены!!!: ' + err.toString())
+                }
+            ), []);
 
 //user
     useEffect(() => {
@@ -101,11 +101,11 @@ export default function App(props) {
         }
     }
 
-/*
-    const handleImagePopupOpen = (evt) => {
-        console.log("handleImagePopupOpen")
-        props.setIsImagePopup(true)
-    }*/
+    /*
+        const handleImagePopupOpen = (evt) => {
+            console.log("handleImagePopupOpen")
+            props.setIsImagePopup(true)
+        }*/
 
 ///avatar
     function handleEditAvatarClick(evt) {

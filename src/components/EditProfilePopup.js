@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
 import PopupWithForm from "./PopupWithForm";
-import api from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function EditProfilePopup(props) {
@@ -56,7 +55,7 @@ function EditProfilePopup(props) {
             <label className="popup__label">
                 <input className="popup__field"
                        onChange={handleChangeProfileJob}
-                       value={profileJob ? profileJob :''}
+                       value={profileJob ? profileJob : ''}
                        id="popup-field-job"
                        maxLength="200"
                        minLength="2"

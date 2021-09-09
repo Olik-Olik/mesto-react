@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from "react";
 import Card from './Card';
 import '../index.css';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
